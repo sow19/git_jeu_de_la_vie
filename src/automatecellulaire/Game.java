@@ -12,16 +12,16 @@ public class Game{
      * @param grid
      * @param generator
      */
-	public Game(Grille grid, Generator generator) {
+	public Game(Grid grid, Generator generator) {
 		this.grid = grid;
 		this.generator = generator;
 	}
     
     // Getters and setters
-	public Grille getGrid() {
+	public Grid getGrid() {
 		return grid;
 	}
-	public void setGrid(Grille grid) {
+	public void setGrid(Grid grid) {
 		this.grid = grid;
 	}
 	public Generator getGenerator() {
