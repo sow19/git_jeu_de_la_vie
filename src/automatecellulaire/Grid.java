@@ -5,8 +5,8 @@ import java.util.Random;
 public class Grid{
     private Cellule [][] board;
     private Integer nbLine,nbColum;
-    public Grid(Integer line , Integer colum){
-        this.board=new Cellule[line][colum];
+    public Grid(Integer nbLine , Integer nbColum){
+        this.board=new Cellule[nbLine][nbColum];
     }
     public Integer getNbLine(){
         return this.nbLine;
@@ -14,13 +14,16 @@ public class Grid{
     public Integer getNbColum(){
         return this.nbColum;
     }
-    public void initGrid(){
+    public void initRandomGrid(){
         Random rd=new Random();
         for (int i = 0; i < this.board.length; i++){
             for (int j = 0; j < board[i].length; j++) {
-                this.board[i][j]=new Cellule(new Position(i, j), rd.nextBoolean());
+                this.board[i][j]=new Cellule(new Position(i,j), rd.nextBoolean());
             }
         }
+    }
+    public void initOneCellGrid(Position pos,boolean etat){
+        this.board[pos.getRow()][pos.getCol()]=new Cellule(pos,etat);
     }
     @Override
     public String toString(){
