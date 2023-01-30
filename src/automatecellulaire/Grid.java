@@ -2,10 +2,10 @@ package automatecellulaire;
 
 import java.util.Random;
 
-public class Grille{
+public class Grid{
     private Cellule [][] board;
     private Integer nbLine,nbColum;
-    public Grille(Integer line , Integer colum){
+    public Grid(Integer line , Integer colum){
         this.board=new Cellule[line][colum];
     }
     public Integer getNbLine(){
@@ -14,11 +14,11 @@ public class Grille{
     public Integer getNbColum(){
         return this.nbColum;
     }
-    public void initGrille(){
+    public void initGrid(){
         Random rd=new Random();
         for (int i = 0; i < this.board.length; i++){
             for (int j = 0; j < board[i].length; j++) {
-                this.board[i][j]=new Cellule(null, rd.nextBoolean());
+                this.board[i][j]=new Cellule(new Position(i, j), rd.nextBoolean());
             }
         }
     }
