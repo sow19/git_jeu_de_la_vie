@@ -4,7 +4,7 @@ package automatecellulaire;
  * The class which play the game
  */
 public class Game{
-    private Grille grid;
+    private Grid grid;
     private Generator generator;
     
     /**
