@@ -8,6 +8,12 @@ public class Grid{
     
     public Grid(Integer nbLine , Integer nbColum){
         this.board=new Cellule[nbLine][nbColum];
+        
+        for (int i = 0; i < this.board.length; i++){
+            for (int j = 0; j < board[i].length; j++) {
+                this.board[i][j]=new Cellule(new Position(i,j), false);
+            }
+        }
     }
     public Integer getNbLine(){
         return this.nbLine;
