@@ -37,12 +37,12 @@ public class Game{
 	 */
 	public void play() {
 		// We print the grid in his initial state
-		// todo: do it
+		System.out.println(this.grid.toString());
 		
 		// We generate next generations until all cells of the grid are dead
 		while(!this.grid.isAllDead()) {
 			this.generator.nextGeneration(this.grid);
-			// print the new grid here
+			System.out.println(this.grid.toString());
 		}
 	}
 }

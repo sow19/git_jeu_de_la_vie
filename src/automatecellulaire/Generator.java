@@ -23,7 +23,7 @@ public class Generator {
 
     public void nextGeneration(Grid old_grid){
         // old_grid = new Grid(10, 10);
-        Grid future_grid = new Grid(null,null) ;
+        Grid future_grid = new Grid(old_grid.getBoard()[0].length, old_grid.getBoard()[1].length) ;
 
         //walk through the grid and check the number of neighbors for each cell
 

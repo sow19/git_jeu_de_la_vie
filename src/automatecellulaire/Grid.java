@@ -5,6 +5,7 @@ import java.util.Random;
 public class Grid{
     private Cellule [][] board;
     private Integer nbLine,nbColum;
+    
     public Grid(Integer nbLine , Integer nbColum){
         this.board=new Cellule[nbLine][nbColum];
     }
@@ -29,8 +30,18 @@ public class Grid{
         this.board[pos.getRow()][pos.getCol()]=new Cellule(pos,etat);
     }
     
-    public int getDeadCell() {
-    	return 0; // todo: impplement this function
+    public int getAliveCell() {
+    	int count = 0;
+    	for (int i = 0; i < this.board.length; i++){
+            for (int j = 0; j < board[i].length; j++) {
+                	Cellule cell = this.board[i][j];
+                	if(cell.getEtat()) {
+                		count++;
+                	}
+            }
+        }
+    	
+    	return count;
     }
     
     /**
@@ -38,7 +49,7 @@ public class Grid{
      * @return
      */
     public boolean isAllDead() {
-    	return this.getDeadCell() == 0;
+    	return this.getAliveCell() == 0;
     }
     
     
@@ -47,7 +58,7 @@ public class Grid{
         String chaine=" -----"+System.lineSeparator();
         for(int i=0;i<this.board.length;i++){
             for(int j=0;j<this.board[i].length;j++){
-                chaine+="|"+this.board[i][j];
+                chaine+="|"+this.board[i][j].getEtat();
             }
             chaine+="|"+System.lineSeparator();
             chaine+=" -----"+System.lineSeparator();
