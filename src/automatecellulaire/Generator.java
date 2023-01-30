@@ -29,15 +29,15 @@ public class Generator {
         for(int i =1;i+1< old_grid.getNbLine();i++){
             for( int j =1;j+1< old_grid.getNbColum();j++){
 
-                int count = Collections.frequency(List.of(old_grid.getGrid()[i-1][j-1],old_grid.getGrid()[i-1][j]
-                ,old_grid.getGrid()[i-1][j+1],old_grid.getGrid()[i][j-1],old_grid.getGrid()[i][j+1]),true);
-                if(old_grid.getGrid()[i][j].getEtat() ==true && (count !=2 && count !=3)){
-                    future_grid.getGrid()[i][j].setEtat(false);
+                int count = Collections.frequency(List.of(old_grid.getBoard()[i-1][j-1],old_grid.getBoard()[i-1][j]
+                ,old_grid.getBoard()[i-1][j+1],old_grid.getBoard()[i][j-1],old_grid.getBoard()[i][j+1]),true);
+                if(old_grid.getBoard()[i][j].getEtat() ==true && (count !=2 && count !=3)){
+                    future_grid.getBoard()[i][j].setEtat(false);
 
-                }else if(old_grid.getGrid()[i][j].getEtat()==false && count==3){
-                    future_grid.getGrid()[i][j].setEtat(true);
+                }else if(old_grid.getBoard()[i][j].getEtat()==false && count==3){
+                    future_grid.getBoard()[i][j].setEtat(true);
                 }else{
-                    future_grid.getGrid()[i][j].setEtat(old_grid.getGrid()[i][j].getEtat())  ;
+                    future_grid.getBoard()[i][j].setEtat(old_grid.getBoard()[i][j].getEtat())  ;
                 }
                        
                 

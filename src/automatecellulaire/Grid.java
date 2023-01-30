@@ -22,8 +22,8 @@ public class Grid{
             }
         }
     }
-    public Cellule getBoard(){
-        return this.board[this.nbLine][this.nbColum];
+    public Cellule[][] getBoard(){
+        return this.board;
     }
     public void initOneCellGrid(Position pos,boolean etat){
         this.board[pos.getRow()][pos.getCol()]=new Cellule(pos,etat);
