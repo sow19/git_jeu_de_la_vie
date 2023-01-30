@@ -16,8 +16,8 @@ public class Generator {
     /*
      * 
      */
-    public Grille nextGeneration(){
-
+    public Grille nextGeneration(Grille grid){
+    	return null;
     }
 
 
