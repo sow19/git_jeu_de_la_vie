@@ -42,10 +42,10 @@ public class Game{
 		
 		// We generate next generations until all cells of the grid are dead
 		while(!this.grid.isAllDead()) {
-			this.generator.nextGeneration(this.grid);
+			this.grid = this.generator.nextGeneration(this.grid);
 			System.out.println("nouveau");
 			System.out.println(this.grid.toString());
-			break;
+			break; //
 		}
 	}
 }

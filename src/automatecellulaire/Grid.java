@@ -11,7 +11,7 @@ public class Grid{
         
         for (int i = 0; i < this.board.length; i++){
             for (int j = 0; j < board[i].length; j++) {
-                this.board[i][j]=new Cellule(new Position(i,j), false);
+                this.board[i][j]=new Cellule(new Position(i,j), 0);
             }
         }
     }
@@ -25,14 +25,14 @@ public class Grid{
         Random rd=new Random();
         for (int i = 0; i < this.board.length; i++){
             for (int j = 0; j < board[i].length; j++) {
-                this.board[i][j]=new Cellule(new Position(i,j), rd.nextBoolean());
+                this.board[i][j]=new Cellule(new Position(i,j), rd.nextInt(2));
             }
         }
     }
     public Cellule[][] getBoard(){
         return this.board;
     }
-    public void initOneCellGrid(Position pos,boolean etat){
+    public void initOneCellGrid(Position pos,int etat){
         this.board[pos.getRow()][pos.getCol()]=new Cellule(pos,etat);
     }
     
@@ -41,7 +41,7 @@ public class Grid{
     	for (int i = 0; i < this.board.length; i++){
             for (int j = 0; j < board[i].length; j++) {
                 	Cellule cell = this.board[i][j];
-                	if(cell.getEtat()) {
+                	if(cell.getEtat() == 1) {
                 		count++;
                 	}
             }
