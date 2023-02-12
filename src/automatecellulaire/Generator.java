@@ -8,8 +8,19 @@ public class Generator {
     
     public Generator() {
     }
+
+    /**
+     * cette fonctio calcule le nombre de voisins d'une cellule
+     * @param i entier : ligne de la cellule dont on veut compter les voisins vivants. 
+     * @param j entier : colonne de la cellule dont on veut compter les voisins
+     * @param grid objet Grid : une instance de la classe Grid représentant la grille de cellules
+     * @requires les entées i et h doivent être des entiers compris entre 0 et les dimensions de la grille Grid
+     * @requires L'objet grid doit être une instance valide de la classe Grid et doit contenir des cellules accessibles par grid.getBoard()
+     * @ensures La méthode retourne un entier représentant le nombre de voisins vivants de la cellule donnée
+     * @return Un entier représentant le nombre de voisins vivants de la cellule située à la ligne i et la colonne j dans la grille grid
+     */
     
-    private int countLiveNeighbors(int i, int j, Grid grid) {
+    public int countLiveNeighbors(int i, int j, Grid grid) {
         int liveNeighbors = 0;
         int row = grid.getBoard().length;
         int col = grid.getBoard()[0].length;
@@ -27,9 +38,13 @@ public class Generator {
 
 
     /**
-     * this function mimics the new generation
-     * @param old_grid The grid
-     * @return A next generation grid
+     * Cette fonction prend en entrée une grille actuelle et renvoie la
+     * grille de la generation suivante en utilisant les règles du jeu de la vie
+     * les Cellules vivantes sont conservées si elles ont exactement 2 ou 3 voisins vivants
+     * sinon elles meurent.Les cellules mortes renaissent si elles ont exactement 3 voisins vivants
+     * @param grid une instance de la classe Grid
+     * @requires la fonction countLiveNeighbors doit être créé avant son utilisation dans la fonction
+     * @return un objet de type Grid representant la nouvelle generation 
      */
 
     public Grid nextGeneration(Grid grid){
