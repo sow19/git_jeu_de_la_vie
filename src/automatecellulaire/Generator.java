@@ -9,32 +9,7 @@ public class Generator {
     public Generator() {
     }
 
-    /**
-     * cette fonctio calcule le nombre de voisins d'une cellule
-     * @param i entier : ligne de la cellule dont on veut compter les voisins vivants. 
-     * @param j entier : colonne de la cellule dont on veut compter les voisins
-     * @param grid objet Grid : une instance de la classe Grid représentant la grille de cellules
-     * @requires les entées i et h doivent être des entiers compris entre 0 et les dimensions de la grille Grid
-     * @requires L'objet grid doit être une instance valide de la classe Grid et doit contenir des cellules accessibles par grid.getBoard()
-     * @ensures La méthode retourne un entier représentant le nombre de voisins vivants de la cellule donnée
-     * @return Un entier représentant le nombre de voisins vivants de la cellule située à la ligne i et la colonne j dans la grille grid
-     */
-    
-    public int countLiveNeighbors(int i, int j, Grid grid) {
-        int liveNeighbors = 0;
-        int row = grid.getBoard().length;
-        int col = grid.getBoard()[0].length;
-        Cellule [][]board = grid.getBoard();
-        
-        for (int x = Math.max(i - 1, 0); x <= Math.min(i + 1, row - 1); x++) {
-            for (int y = Math.max(j - 1, 0); y <= Math.min(j + 1, col - 1); y++) {
-                if (board[x][y].getEtat() == 1 && !(x == i && y == j)) {
-                    liveNeighbors++;
-                }
-            }
-        }
-        return liveNeighbors;
-    }
+  
 
 
     /**
@@ -53,18 +28,20 @@ public class Generator {
     	Grid nextGrid = new Grid(grid.getBoard().length, grid.getBoard()[0].length);
     	Cellule [][] nextBoard = nextGrid.getBoard();
     	Cellule [][]board = grid.getBoard();
+        Rule regle = new Rule(null,null);// à ajouter la règle entréé par l'utilisateur
+        // y'a une confusion avec l'appel de la méthode read
+        String userRule = "";// à spécifier par l'utilisateur
     	
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                int liveNeighbors = countLiveNeighbors(i, j, grid);
                 if (board[i][j].getEtat() == 1) {
-                    if (liveNeighbors == 2 || liveNeighbors == 3) {
+                    if (regle.checkSurvive(board[i][j],userRule,grid)) {
                     	nextBoard[i][j].setEtat(1);
                     } else {
                     	nextBoard[i][j].setEtat(0);
                     }
                 } else {
-                    if (liveNeighbors == 3) {
+                    if (regle.checkBorne(board[i][j],userRule,grid)) {
                     	nextBoard[i][j].setEtat(1);
                     } else {
                     	nextBoard[i][j].setEtat(0);
