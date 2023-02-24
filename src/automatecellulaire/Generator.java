@@ -5,28 +5,35 @@ package automatecellulaire;
  */
 
 public class Generator {
+	private int[][] neighbors;
     
     public Generator() {
+    	this.neighbors = constants.NeighborsType.type1;
     }
     
-    private int countLiveNeighbors(int i, int j, Grid grid) {
-        int liveNeighbors = 0;
-        int row = grid.getBoard().length;
-        int col = grid.getBoard()[0].length;
-        Cellule [][]board = grid.getBoard();
-        
-        for (int x = Math.max(i - 1, 0); x <= Math.min(i + 1, row - 1); x++) {
-            for (int y = Math.max(j - 1, 0); y <= Math.min(j + 1, col - 1); y++) {
-                if (board[x][y].getEtat() == 1 && !(x == i && y == j)) {
-                    liveNeighbors++;
-                }
-            }
+    public int countAliveNeighbors(int row, int col, Grid grid) {
+        int count = 0;
+        for (int[] n : neighbors) {
+          int r = row + n[0];
+          int c = col + n[1];
+          if (r >= 0 && r < grid.getRows() && c >= 0 && c < grid.getCols() && grid.getBoard()[r][c].getEtat() == 1) {
+            count++;
+          }
         }
-        return liveNeighbors;
+        return count;
     }
+      
 
 
-    /**
+    public int[][] getNeighbors() {
+		return neighbors;
+	}
+
+	public void setNeighbors(int[][] neighbors) {
+		this.neighbors = neighbors;
+	}
+
+	/**
      * this function mimics the new generation
      * @param old_grid The grid
      * @return A next generation grid
@@ -41,7 +48,7 @@ public class Generator {
     	
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                int liveNeighbors = countLiveNeighbors(i, j, grid);
+                int liveNeighbors = countAliveNeighbors(i, j, grid);
                 if (board[i][j].getEtat() == 1) {
                     if (liveNeighbors == 2 || liveNeighbors == 3) {
                     	nextBoard[i][j].setEtat(1);

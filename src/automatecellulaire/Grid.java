@@ -21,6 +21,15 @@ public class Grid{
     public Integer getNbColum(){
         return this.nbColum;
     }
+    
+    public int getRows() {
+    	return board.length;
+    }
+    
+    public int getCols() {
+    	return board[0].length;
+    }
+    
     public void initRandomGrid(){
         Random rd=new Random();
         for (int i = 0; i < this.board.length; i++){
