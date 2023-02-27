@@ -1,8 +1,19 @@
-gipackage automatecellulaire;
+package automatecellulaire;
+
+import java.util.ArrayList;
 
 public class RuleMulttF implements RuleFormat {
+    private ArrayList<Integer> values = new ArrayList<>();
 
-    
+    public RuleMulttF() {
+        this.values = new ArrayList<Integer> ();
+    }
+
+    public RuleMulttF(String rulestr) {
+        this.values = new ArrayList<Integer> ();
+        this.read(rulestr);
+    }
+
 
     /**
      * Cette méthode a pour but de lire la règle entrée par l'utilisateur
@@ -14,51 +25,17 @@ public class RuleMulttF implements RuleFormat {
      */
 
     @Override
-    public int[] read(String userRule) {
+    public void read(String userRule) {
        
-      int[]  values = new int[userRule.length()];
-
         try{
             for(int i = 0 ; i< userRule.length();i++){
-                values[i] = Character.getNumericValue(userRule.charAt(i));
+                values.add(Character.getNumericValue(userRule.charAt(i)));
             }
-            return values;
 
         }catch (NumberFormatException e) {
             System.out.println("entrée non valide");
-            return null;
         }
     }
-
-
-
-    /**
-     * cette fonction calcule le nombre de voisins d'une cellule
-     * @param i entier : ligne de la cellule dont on veut compter les voisins vivants. 
-     * @param j entier : colonne de la cellule dont on veut compter les voisins
-     * @param grid objet Grid : une instance de la classe Grid représentant la grille de cellules
-     * @requires les entées i et j doivent être des entiers compris entre 0 et les dimensions de la grille Grid
-     * @requires L'objet grid doit être une instance valide de la classe Grid et doit contenir des cellules accessibles par grid.getBoard()
-     * @ensures La méthode retourne un entier représentant le nombre de voisins vivants de la cellule donnée
-     * @return Un entier représentant le nombre de voisins vivants de la cellule située à la ligne i et la colonne j dans la grille grid
-     */
-    @Override
-    public int countLiveNeighbors(int i, int j, Grid grid) {
-        int liveNeighbors = 0;
-        int row = grid.getBoard().length;
-        int col = grid.getBoard()[0].length;
-        Cellule [][]board = grid.getBoard();
-        
-        for (int x = Math.max(i - 1, 0); x <= Math.min(i + 1, row - 1); x++) {
-            for (int y = Math.max(j - 1, 0); y <= Math.min(j + 1, col - 1); y++) {
-                if (board[x][y].getEtat() == 1 && !(x == i && y == j)) {
-                    liveNeighbors++;
-                }
-            }
-        }
-        return liveNeighbors;
-    }
-
 
 
 
@@ -74,19 +51,10 @@ public class RuleMulttF implements RuleFormat {
      */
 
     @Override
-    public boolean check(Cellule cellule,String userRule,Grid grid) {
-        
-        int[] values = read(userRule);
-        int liveNeighbors = countLiveNeighbors(cellule.getPosition().getRow(), cellule.getPosition().getCol(), grid);
-               for(int k=0; k < values.length ; k++){
-                if(liveNeighbors == values[k]){
-                   
-                    return true;
-                }
-               }
+    public boolean check(int neighbors) {
+        return values.contains(neighbors);
+    }
 
-             return false;
-            }
 
            
 }

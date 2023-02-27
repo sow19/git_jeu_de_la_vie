@@ -2,7 +2,18 @@ package automatecellulaire;
 
 public class RuleRangeF  implements RuleFormat{
     
+    protected int[] range;
+    
 
+
+    public RuleRangeF() {
+        this.range = new int[2];
+    }
+
+    public RuleRangeF(String rulestr) {
+        this.range = new int[2];
+        this.read(rulestr);
+    }
 
     /**
      * Cette méthode a pour but de lire la règle entrée par l'utilisateur
@@ -13,50 +24,20 @@ public class RuleRangeF  implements RuleFormat{
      * @return un tableau d'entiers représentant le type de règle entré par l'utilisateur
      */
     @Override
-    public int[] read(String userRule){
-      int[]  range = new int[2];
+    public void read(String userRule){
 
         try{
             String[] parts = userRule.split("-");
             range[0] = Integer.parseInt(parts[0]);
             range[1] = Integer.parseInt(parts[1]);
-            return range;
 
         }catch (NumberFormatException e) {
             System.out.println("entrée non valide");
-            return null;
         }
        
 
     }
 
-     /**
-     * cette fonction calcule le nombre de voisins d'une cellule
-     * @param i entier : ligne de la cellule dont on veut compter les voisins vivants. 
-     * @param j entier : colonne de la cellule dont on veut compter les voisins
-     * @param grid objet Grid : une instance de la classe Grid représentant la grille de cellules
-     * @requires les entées i et j doivent être des entiers compris entre 0 et les dimensions de la grille Grid
-     * @requires L'objet grid doit être une instance valide de la classe Grid et doit contenir des cellules accessibles par grid.getBoard()
-     * @ensures La méthode retourne un entier représentant le nombre de voisins vivants de la cellule donnée
-     * @return Un entier représentant le nombre de voisins vivants de la cellule située à la ligne i et la colonne j dans la grille grid
-     */
-
-    @Override
-    public int countLiveNeighbors(int i, int j, Grid grid) {
-        int liveNeighbors = 0;
-        int row = grid.getBoard().length;
-        int col = grid.getBoard()[0].length;
-        Cellule [][]board = grid.getBoard();
-        
-        for (int x = Math.max(i - 1, 0); x <= Math.min(i + 1, row - 1); x++) {
-            for (int y = Math.max(j - 1, 0); y <= Math.min(j + 1, col - 1); y++) {
-                if (board[x][y].getEtat() == 1 && !(x == i && y == j)) {
-                    liveNeighbors++;
-                }
-            }
-        }
-        return liveNeighbors;
-    }
 
       /**
      * @param cellule : la cellule sur laquelle la règle s'applique
@@ -70,16 +51,9 @@ public class RuleRangeF  implements RuleFormat{
 
 
     @Override
-
-    public boolean check(Cellule cellule,String userRule,Grid grid) {
-        int[] values = read(userRule);
-        int liveNeighbors = countLiveNeighbors(cellule.getPosition().getRow(), cellule.getPosition().getCol(), grid);
-                if(liveNeighbors==values[0] || liveNeighbors==values[1]){
-                    return true;
-                }
-         return false;     
-
-            }
+    public boolean check(int neighbors) {
+        return (neighbors >= range[0] && neighbors <= range[1]);
+    }
 
        
 }

@@ -5,13 +5,8 @@ public class Rule {
     private RuleFormat surviveRule;
 
     
-    public Rule() {
-    }
-
-    public Rule(RuleFormat bornRule,RuleFormat surviveRule){
-        this.bornRule = bornRule;
-        this.surviveRule = surviveRule;
-
+    public Rule(String rulestr) {
+        this.read(rulestr);
     }
 
     
@@ -38,28 +33,26 @@ public class Rule {
     }
 
 
-    /**
-    *Cette méthode prend une chaîne de caractères userRule en entrée, extrait la partie avant le slash et détermine quel type de règle doit être utilisé pour la naissance de cellules.
-    *Si la chaîne userRule est au format "x-y" (avec x et y deux nombres), la variable bornRule est initialisée avec une nouvelle instance de la classe RuleRangeF
-    *Si la chaîne userRule est un nombre, la variable bornRule est initialisée avec une nouvelle instance de la classe RuleMulttF
-    *Si la chaîne userRule n'est pas dans un format valide, une exception de type IllegalArgumentException est levée avec le message "La règle est erronée
-    *Cette méthode ne retourne rien, mais affecte la variable bornRule de la classe courante en fonction de la règle de naissance déterminée
-    *@param userRule :une chaîne de caractères contenant la règle de naissance à déterminer
+    // /**
+    // *Cette méthode prend une chaîne de caractères userRule en entrée, extrait la partie avant le slash et détermine quel type de règle doit être utilisé pour la naissance de cellules.
+    // *Si la chaîne userRule est au format "x-y" (avec x et y deux nombres), la variable bornRule est initialisée avec une nouvelle instance de la classe RuleRangeF
+    // *Si la chaîne userRule est un nombre, la variable bornRule est initialisée avec une nouvelle instance de la classe RuleMulttF
+    // *Si la chaîne userRule n'est pas dans un format valide, une exception de type IllegalArgumentException est levée avec le message "La règle est erronée
+    // *Cette méthode ne retourne rien, mais affecte la variable bornRule de la classe courante en fonction de la règle de naissance déterminée
+    // *@param userRule :une chaîne de caractères contenant la règle de naissance à déterminer
     
-     */
+    //  */
 
-    public void readBorn(String userRule){
+    // public void readBorn(String born){
 
-        String[] parties = userRule.split("/");
-        String born = parties[0];
-        if(born.matches("^[0-9]-[0-9]$")){
-            bornRule = new RuleRangeF();
-        }else if(born.matches("^[0-9]+$")){
-            bornRule = new RuleMulttF();
-        }else{
-            throw new IllegalArgumentException("La règle est erronée");
-        }
-    }
+    //     if(born.matches("^[0-9]-[0-9]$")){
+    //         bornRule = new RuleRangeF();
+    //     }else if(born.matches("^[0-9]+$")){
+    //         bornRule = new RuleMulttF();
+    //     }else{
+    //         throw new IllegalArgumentException("La règle est erronée");
+    //     }
+    // }
 
 
      /**
@@ -72,17 +65,26 @@ public class Rule {
     
      */
 
-    public void readSurvive(String userRule){
+    public RuleFormat readAux(String rulestr){
+        RuleFormat rule = null;
+        rulestr = rulestr.substring(1);
+        // if(rulestr.matches("^[0-9]-[0-9]$")){
+        //     rule = new RuleRangeF(rulestr);
+        // }else if(rulestr.matches("^[0-9]+$")){
+        //     rule = new RuleMulttF(rulestr);
+        // }else{
+        //     throw new IllegalArgumentException("La règle est erronée");
+        // }
 
-        String[] parties = userRule.split("/");
-        String survive = parties[1];
-        if(survive.matches("^[0-9]-[0-9]$")){
-            surviveRule = new RuleRangeF();
-        }else if(survive.matches("^[0-9]+$")){
-            surviveRule = new RuleMulttF();
+        if(rulestr.matches("^[0-9]-[0-9]$")){
+            rule = new RuleRangeF(rulestr);
+        }else if(rulestr.matches("^[0-9]+$")){
+            rule = new RuleMulttF(rulestr);
         }else{
             throw new IllegalArgumentException("La règle est erronée");
         }
+
+        return rule;
     }
 
    
@@ -94,8 +96,11 @@ public class Rule {
     */
 
     public void read(String userRule){
-        readBorn(userRule);
-        readSurvive(userRule);     
+        String[] parties = userRule.split("/");
+        String born = parties[0];
+        String survive = parties[1];
+        this.bornRule = readAux(born);
+        this.surviveRule = readAux(survive);
     }
 
 
@@ -107,9 +112,9 @@ public class Rule {
     * @return true si la cellule doit naître selon les règles de naissance, false sinon
     */
 
-    public boolean checkBorne(Cellule cellule,String userRule,Grid grid){
-        read(userRule);
-        return bornRule.check(cellule,userRule,grid);
+    public boolean checkBorn(int neighbors){
+        //read(userRule);
+        return bornRule.check(neighbors);
     }
 
 
@@ -122,9 +127,9 @@ public class Rule {
     * @return true si la cellule survit, false sinon
     */
 
-    public boolean checkSurvive(Cellule cellule,String userRule,Grid grid){
-        read(userRule);
-        return surviveRule.check(cellule,userRule,grid);
+    public boolean checkSurvive(int neighbors){
+        //read(userRule);
+        return surviveRule.check(neighbors);
     }
 
 
