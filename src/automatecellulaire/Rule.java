@@ -5,6 +5,10 @@ public class Rule {
     private RuleFormat surviveRule;
 
     
+    /**
+     * constructeur de la classe qui appelle la méthode read qui permet de créer un objet ruleFormat en fonction de rulestr
+     * @param rulestr la chaine de caractère entrée par l'utilisateur
+     */
     public Rule(String rulestr) {
         this.read(rulestr);
     }
@@ -33,49 +37,23 @@ public class Rule {
     }
 
 
-    // /**
-    // *Cette méthode prend une chaîne de caractères userRule en entrée, extrait la partie avant le slash et détermine quel type de règle doit être utilisé pour la naissance de cellules.
-    // *Si la chaîne userRule est au format "x-y" (avec x et y deux nombres), la variable bornRule est initialisée avec une nouvelle instance de la classe RuleRangeF
-    // *Si la chaîne userRule est un nombre, la variable bornRule est initialisée avec une nouvelle instance de la classe RuleMulttF
-    // *Si la chaîne userRule n'est pas dans un format valide, une exception de type IllegalArgumentException est levée avec le message "La règle est erronée
-    // *Cette méthode ne retourne rien, mais affecte la variable bornRule de la classe courante en fonction de la règle de naissance déterminée
-    // *@param userRule :une chaîne de caractères contenant la règle de naissance à déterminer
-    
-    //  */
-
-    // public void readBorn(String born){
-
-    //     if(born.matches("^[0-9]-[0-9]$")){
-    //         bornRule = new RuleRangeF();
-    //     }else if(born.matches("^[0-9]+$")){
-    //         bornRule = new RuleMulttF();
-    //     }else{
-    //         throw new IllegalArgumentException("La règle est erronée");
-    //     }
-    // }
+   
 
 
      /**
-    *Cette méthode prend une chaîne de caractères userRule en entrée, extrait la partie après le slash et détermine quel type de règle doit être utilisé pour la survie de cellules.
-    *Si la chaîne userRule est au format "x-y" (avec x et y deux nombres), la variable surviveRule est initialisée avec une nouvelle instance de la classe RuleRangeF
-    *Si la chaîne userRule est un nombre, la variable surviveRule est initialisée avec une nouvelle instance de la classe RuleMulttF
-    *Si la chaîne userRule n'est pas dans un format valide, une exception de type IllegalArgumentException est levée avec le message "La règle est erronée
-    *Cette méthode ne retourne rien, mais affecte la variable surviveRule de la classe courante en fonction de la règle de naissance déterminée
-    *@param userRule :une chaîne de caractères contenant la règle de naissance à déterminer
+    *Cette méthode prend une chaîne de caractères rulestr en entrée et détermine quel type de règle doit être utilisé.
+    *Si la chaîne rulestr est au format "x-y" (avec x et y deux nombres), la variable rule est initialisée avec une nouvelle instance de la classe RuleRangeF
+    *Si la chaîne rulestr est un nombre, la variable rule est initialisée avec une nouvelle instance de la classe RuleMulttF
+    *Si la chaîne rulestr n'est pas dans un format valide, une exception de type IllegalArgumentException est levée avec le message "La règle est erronée
+    *@param rulestr :une chaîne de caractères entrée par l'utilisateur
+    *@return rule une instance de RuleFormat
     
      */
 
     public RuleFormat readAux(String rulestr){
         RuleFormat rule = null;
         rulestr = rulestr.substring(1);
-        // if(rulestr.matches("^[0-9]-[0-9]$")){
-        //     rule = new RuleRangeF(rulestr);
-        // }else if(rulestr.matches("^[0-9]+$")){
-        //     rule = new RuleMulttF(rulestr);
-        // }else{
-        //     throw new IllegalArgumentException("La règle est erronée");
-        // }
-
+       
         if(rulestr.matches("^[0-9]-[0-9]$")){
             rule = new RuleRangeF(rulestr);
         }else if(rulestr.matches("^[0-9]+$")){
@@ -90,9 +68,9 @@ public class Rule {
    
 
     /**
-    *La méthode "read" a pour but de lire les règles de naissance et de survie depuis la chaîne de caractères "userRule" en appelant les méthodes "readBorn" et "readSurvive
+    *La méthode "read" prend une chaine entrée par l'utilisateur la divise en deux parties en fonction du slash et appelle la fonction readAux sur chaque partie
     *Elle ne renvoie aucune valeur mais permet de stocker les règles dans les attributs de l'objet
-    *@param userRule est une règle valide entrée par l'utilisateur
+    *@param userRule est une chaine valide entrée par l'utilisateur
     */
 
     public void read(String userRule){
@@ -105,25 +83,21 @@ public class Rule {
 
 
     /**
-    * Vérifie si la cellule spécifiée doit naître selon les règles de naissance spécifiées dans userRule.
-    * @param cellule la cellule à vérifier
-    * @param userRule la règle de naissance spécifiée par l'utilisateur
-    * @param grid la grille dans laquelle se trouve la cellule
+    *Vérifie si la cellule spécifiée doit naître selon le nombre de voisin qu'elle a.
+    *fait appel à la méthode check de l'objet bornRule pour vérifier si la cellule doit naitre.
+    * @param neighbors le nombre de voisin d'une cellule 
     * @return true si la cellule doit naître selon les règles de naissance, false sinon
     */
 
     public boolean checkBorn(int neighbors){
-        //read(userRule);
         return bornRule.check(neighbors);
     }
 
 
-        /**
+    /**
     * Vérifie si la cellule spécifiée survit à la prochaine génération en se basant sur la règle de survie spécifiée par l'utilisateur.
-    * Utilise la méthode read pour déterminer la règle de survie, puis fait appel à la méthode check de l'objet surviveRule pour vérifier si la cellule survit.
-    * @param cellule la cellule à vérifier
-    * @param userRule la règle de survie spécifiée par l'utilisateur
-    * @param grid la grille dans laquelle se trouve la cellule
+    * fait appel à la méthode check de l'objet surviveRule pour vérifier si la cellule survit.
+    * @param neighbors le nombre de voisins d'une cellule
     * @return true si la cellule survit, false sinon
     */
 

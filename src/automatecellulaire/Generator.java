@@ -41,9 +41,7 @@ public class Generator {
 
     /**
      * Cette fonction prend en entrée une grille actuelle et renvoie la
-     * grille de la generation suivante en utilisant les règles du jeu de la vie
-     * les Cellules vivantes sont conservées si elles ont exactement 2 ou 3 voisins vivants
-     * sinon elles meurent.Les cellules mortes renaissent si elles ont exactement 3 voisins vivants
+     * grille de la generation suivante en utilisant les règles spécifié par l'utilisateur
      * @param grid une instance de la classe Grid
      * @requires la fonction countLiveNeighbors doit être créé avant son utilisation dans la fonction
      * @return un objet de type Grid representant la nouvelle generation 
