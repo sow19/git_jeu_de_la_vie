@@ -25,6 +25,16 @@ public class Grid{
     public Integer getNbColum(){
         return this.nbColum;
     }
+
+    public int getRows() {
+    	return board.length;
+    }
+    
+    public int getCols() {
+    	return board[0].length;
+    }
+    
+    
     public void initGridUser(Position[] tabPosition){
         for (int i = 0; i < this.board.length; i++){
             for (int j = 0; j < board[i].length; j++) {
@@ -69,6 +79,7 @@ public class Grid{
                     patternCol++;
                 }
                 patternRow++;
+        
             }
 
             int startRow = (this.nbLine - patternRow) / 2;
@@ -81,6 +92,7 @@ public class Grid{
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        
     }
 
     public void initRandomGrid(){

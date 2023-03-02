@@ -10,16 +10,33 @@ import model.rule.Rule;
 
 public class Generator {
     private Rule rule;
+    private int[][] neighbors;
 
     public Generator(Rule rule) {
         this.rule = rule;
+        this.neighbors = constants.NeighborsType.GAMEOFLIFE; // game of life default
     }
 
     public Generator() {
-        this(new Rule("B2/S23")); // jeu de la vie
-        // @todo move to constant
+        this(new Rule(constants.Rules.GAMEOFLIFE)); // game of life default
     }
 
+    public int[][] getNeighbors() {
+		return neighbors;
+	}
+
+	public void setNeighbors(int[][] neighbors) {
+		this.neighbors = neighbors;
+	}
+
+
+    public Rule getRule() {
+        return rule;
+    }
+
+    public void setRule(Rule rule) {
+        this.rule = rule;
+    }
 
     /**
      * cette fonction calcule le nombre de voisins d'une cellule
@@ -31,20 +48,16 @@ public class Generator {
      * @ensures La méthode retourne un entier représentant le nombre de voisins vivants de la cellule donnée
      * @return Un entier représentant le nombre de voisins vivants de la cellule située à la ligne i et la colonne j dans la grille grid
      */
-    public int countLiveNeighbors(int i, int j, Grid grid) {
-        int liveNeighbors = 0;
-        int row = grid.getBoard().length;
-        int col = grid.getBoard()[0].length;
-        Cellule [][]board = grid.getBoard();
-        
-        for (int x = Math.max(i - 1, 0); x <= Math.min(i + 1, row - 1); x++) {
-            for (int y = Math.max(j - 1, 0); y <= Math.min(j + 1, col - 1); y++) {
-                if (board[x][y].getEtat() == 1 && !(x == i && y == j)) {
-                    liveNeighbors++;
-                }
-            }
+    public int countAliveNeighbors(int row, int col, Grid grid) {
+        int count = 0;
+        for (int[] n : neighbors) {
+          int r = row + n[0];
+          int c = col + n[1];
+          if (r >= 0 && r < grid.getRows() && c >= 0 && c < grid.getCols() && grid.getBoard()[r][c].getEtat() == 1) {
+            count++;
+          }
         }
-        return liveNeighbors;
+        return count;
     }
 
 
@@ -65,7 +78,7 @@ public class Generator {
             	
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
-                int liveNeighbors = countLiveNeighbors(i, j, grid);
+                int liveNeighbors = countAliveNeighbors(i, j, grid);
                 if (board[i][j].getEtat() == 1) {
                     if (rule.checkSurvive(liveNeighbors)) {
                     	nextBoard[i][j].setEtat(1);
