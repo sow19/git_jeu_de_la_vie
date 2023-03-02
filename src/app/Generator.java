@@ -15,6 +15,11 @@ public class Generator {
         this.rule = rule;
     }
 
+    public Generator() {
+        this(new Rule("B2/S23")); // jeu de la vie
+        // @todo move to constant
+    }
+
 
     /**
      * cette fonction calcule le nombre de voisins d'une cellule
