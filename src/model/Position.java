@@ -1,4 +1,4 @@
-package automatecellulaire;
+package model;
 
 /*
  * A class representing the position of a cell in the grid

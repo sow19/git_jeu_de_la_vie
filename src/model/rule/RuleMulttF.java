@@ -1,4 +1,4 @@
-package automatecellulaire;
+package model.rule;
 
 import java.util.ArrayList;
 

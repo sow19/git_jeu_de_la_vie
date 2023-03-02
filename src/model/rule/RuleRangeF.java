@@ -1,4 +1,4 @@
-package automatecellulaire;
+package model.rule;
 
 public class RuleRangeF  implements RuleFormat{
     

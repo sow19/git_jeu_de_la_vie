@@ -1,4 +1,4 @@
-package automatecellulaire;
+package model.rule;
 
 /**
  * Interface définissant les méthodes pour un format de règle

@@ -1,4 +1,4 @@
-package automatecellulaire;
+package model;
 
 public class Cellule {
 	private Position position;

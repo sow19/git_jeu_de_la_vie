@@ -1,4 +1,8 @@
-package automatecellulaire;
+package app;
+
+import model.Cellule;
+import model.Grid;
+import model.rule.Rule;
 
 /*
  * A class to generate the next generation of the grid
