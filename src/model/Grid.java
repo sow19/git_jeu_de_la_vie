@@ -33,8 +33,13 @@ public class Grid{
     public int getCols() {
     	return board[0].length;
     }
-    
-    
+
+    /**
+
+     Initialise les cellules de la grille pour avoir un état initial de 1 pour chaque position donnée dans le tableau de Positions.
+     @param tabPosition un tableau de Positions à définir comme cellules vivantes sur la grille
+     @throws NullPointerException si le tableau de Positions donné est nul
+     */
     public void initGridUser(Position[] tabPosition){
         for (int i = 0; i < this.board.length; i++){
             for (int j = 0; j < board[i].length; j++) {
@@ -48,6 +53,13 @@ public class Grid{
             }
         }
     }
+    /**
+
+     Initialise une configuration de cellules sur la grille à partir d'un fichier texte contenant une matrice de 0 et de 1.
+     Les cellules sont initialisées selon les valeurs du fichier texte en utilisant la position centrale de la grille comme point de départ.
+     @param fileName le nom du fichier texte contenant la matrice de configuration de cellules
+     @throws Exception si le fichier texte ne peut pas être ouvert, si le nombre de lignes ou de colonnes de la matrice de configuration est trop grand pour la grille, ou si un caractère autre que '0' ou '1' est trouvé dans le fichier.
+     */
     public  void initPattern(String fileName) {
         int[][] pattern = new int[this.nbLine][this.nbColum];
         int patternRow = 0;

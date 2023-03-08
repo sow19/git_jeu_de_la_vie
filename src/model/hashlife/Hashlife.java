@@ -5,6 +5,11 @@ import model.Grid;
 public class Hashlife {
     private QuadNode quadtree;
 
+    /**
+     * Convertit une grille en un arbre de quadtree.
+     * @param g la grille à convertir.
+     * @return l'arbre de quadtree résultant.
+     */
     public QuadNode convertToQuadtree(Grid g) {
         int size = Math.max(g.getNbColum(), g.getNbLine());
         boolean[][] bg = new boolean[size][size];
@@ -15,6 +20,12 @@ public class Hashlife {
         }
         return buildQuadtree(bg, size);
     }
+    /**
+     * Construit un arbre de quadtree à partir d'un tableau de booléens.
+     * @param bg le tableau de booléens.
+     * @param size la taille du tableau.
+     * @return l'arbre de quadtree résultant.
+     */
     public QuadNode buildQuadtree(boolean[][] bg,int size){
         QuadNode node = new QuadNode(size);
         if (size == 1) {
