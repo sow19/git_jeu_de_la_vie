@@ -1,4 +1,6 @@
-package automatecellulaire;
+package app;
+
+import model.Grid;
 
 /**
  * The class which play the game
