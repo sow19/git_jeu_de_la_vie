@@ -56,7 +56,11 @@ public class Hashlife {
         }
         return node;
     }
-
+    /**
+     * Convertit un QuadTree en grille.
+     * @param root le noeud racine du QuadTree
+     * @return la grille correspondante
+     */
     public Grid convertToGrid(QuadNode root) {
         int size = root.getSize();
         Grid g = new Grid(size, size);
@@ -64,7 +68,14 @@ public class Hashlife {
         convertToGridRecursive(root, board, 0, 0, size);
         return g;
     }
-
+    /**
+     * Fonction récursive pour convertir un QuadTree en grille.
+     * @param node le noeud courant du QuadTree
+     * @param board la grille à remplir
+     * @param x l'abscisse du coin supérieur gauche du sous-quadtree courant dans la grille
+     * @param y l'ordonnée du coin supérieur gauche du sous-quadtree courant dans la grille
+     * @param size la taille du sous-quadtree courant
+     */
     private void convertToGridRecursive(QuadNode node, Cellule[][] board, int x, int y, int size) {
         if (node.children==null ){
             int etat = node.state ? 1 : 0;
