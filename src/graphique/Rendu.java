@@ -62,6 +62,7 @@ public class Rendu extends JPanel {
 
 		JScrollPane jsc1=new JScrollPane(this.rendu);
 		JScrollPane jsc2=new JScrollPane(this.nav);
+		
 		this.add(jsc2,BorderLayout.NORTH);
 		this.add(jsc1,BorderLayout.CENTER);
 	}
