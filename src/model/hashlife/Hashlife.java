@@ -6,7 +6,7 @@ import model.Grid;
 import model.Position;
 
 import java.util.HashMap;
-
+// source : https://www.dev-mind.blog/hashlife/
 public class Hashlife {
     HashMap<QuadNode, QuadNode> results;
     HashMap<QuadNode, QuadNode> nodes;
