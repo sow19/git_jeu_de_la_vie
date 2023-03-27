@@ -5,6 +5,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * la classe correspondant à la grille de jeu.
+ * @param board est un tableau de cellule de deux dimensions
+ * @param nbLine correspond au nombre de lignes du tableau board.
+ * @param nbColum correspond au nombre de colonnes du tableau board. 
+ */
 public class Grid{
     private Cellule [][] board;
     private Integer nbLine,nbColum;
@@ -106,7 +112,9 @@ public class Grid{
         }
         
     }
-
+    /**
+     * Il s'agit de la fonction permettant d'initialiser aléatoirement la grille.
+     */
     public void initRandomGrid(){
         Random rd=new Random();
         for (int i = 0; i < this.board.length; i++){
@@ -121,7 +129,10 @@ public class Grid{
     public void initOneCellGrid(Position pos,int etat){
         this.board[pos.getRow()][pos.getCol()]=new Cellule(pos,etat);
     }
-    
+    /**
+     * C'est la fonction qui compte le nombre de cellules vivante.
+     * @return 0 si aucune cellule vivante, le nombre de cellules vivantes sinon.
+     */
     public int getAliveCell() {
     	int count = 0;
     	for (int i = 0; i < this.board.length; i++){
@@ -137,8 +148,8 @@ public class Grid{
     }
     
     /**
-     * Return true if there all cells of the grid are dead and false else
-     * @return
+     * cette fonction vérifie que toutes les cellules sont mortes.
+     * @return Retour true si elles sont toutes mortes false sinon.
      */
     public boolean isAllDead() {
     	return this.getAliveCell() == 0;
@@ -156,7 +167,6 @@ public class Grid{
             chaine+=" -----"+System.lineSeparator();
         }
         chaine+="\n";
-        // System.out.println("hashCode: "+this.hashCode());
         return chaine;
     }
 }
