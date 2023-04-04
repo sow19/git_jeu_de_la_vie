@@ -6,55 +6,85 @@ import model.Grid;
 import model.Position;
 
 import java.util.HashMap;
-// source : https://www.dev-mind.blog/hashlife/
+
 public class Hashlife {
-    HashMap<QuadNode, QuadNode> results;
-    HashMap<QuadNode, QuadNode> nodes;
 
     Generator generator;
 
-    int counter = 0;
-
-    public Hashlife() {
-        this.results = new HashMap<>();
-        this.nodes = new HashMap<>();
-        this.generator = new Generator();
+    public Hashlife(Generator generator) {
+        this.generator = generator;
     }
 
     /**
-     * Convertit une grille en un arbre de quadtree.
-     *
-     * @param g la grille à convertir.
-     * @return l'arbre de quadtree résultant.
+     * Convertit une grille en un arbre quadtree.
+     * @param g la grille à convertir en arbre quadtree.
+     * @return l'arbre quadtree correspondant à la grille.
+     * @pre la grille doit être valide et non vide.
+     * @post retourne un arbre quadtree construit à partir des données de la grille.
      */
     public QuadNode convertToQuadtree(Grid g) {
         int size = Math.max(g.getNbColum(), g.getNbLine());
-        boolean[][] bg = new boolean[size][size];
-        for (int i = 0; i < g.getNbLine(); i++) {
-            for (int j = 0; j < g.getNbColum(); j++) {
-                bg[i][j] = g.getBoard()[i][j].getEtat() == 1;
+
+        int power = 1;
+        while (power < size) {
+            power *= 2;
+        }
+        size = power;
+
+        int[][] bg = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (i > g.getNbLine() -1 || j > g.getNbColum() -1) {
+                    bg[i][j] = -1;
+                } else {
+                    bg[i][j] = g.getBoard()[i][j].getEtat();
+                }
             }
         }
-        return buildQuadtree(bg, size);
+        return this.buildQuadtree(bg, size);
     }
-
     /**
-     * Construit un arbre de quadtree à partir d'un tableau de booléens.
-     *
-     * @param bg   le tableau de booléens.
-     * @param size la taille du tableau.
-     * @return l'arbre de quadtree résultant.
+
+     Nettoie les bords d'une grille donnée et crée une nouvelle grille avec les dimensions spécifiées.
+     Les cellules en dehors de la nouvelle grille seront ignorées.
+     @param old la grille d'origine à nettoyer
+     @param rows le nombre de lignes de la nouvelle grille
+     @param columns le nombre de colonnes de la nouvelle grille
+     @return la nouvelle grille avec les cellules de la grille d'origine dans les limites de la nouvelle grille
      */
-    public QuadNode buildQuadtree(boolean[][] bg, int size) {
+    protected Grid cleanBorders(Grid old, int rows, int columns) {
+        Grid grid = new Grid(rows, columns);
+        for (int i=0;i<rows; i++) {
+            for (int j=0;j<columns; j++) {
+                grid.getBoard()[i][j].setEtat(old.getBoard()[i][j].getEtat());
+            }
+        }
+        return grid;
+    }
+    /**
+     * Construit un arbre QuadTree à partir d'une matrice d'entiers et d'une taille donnée.
+     *
+     * @param bg   la matrice d'entiers à partir de laquelle construire l'arbre QuadTree
+     * @param size la taille de la matrice d'entiers
+     * @return le nœud racine de l'arbre QuadTree construit
+     *
+     * @require bg != null
+     * @require bg.length == size
+     * @require bg[i].length == size, pour tout i allant de 0 à size-1
+     * @require size > 0
+     *
+     * @ensure le nœud racine de l'arbre QuadTree construit est retourné
+     */
+    public QuadNode buildQuadtree(int[][] bg, int size) {
         QuadNode node;
         if (size == 1) {
-            node = this.buildNode(bg[0][0]);
+            node = QuadNode.create(bg[0][0]);
         } else {
             int halfSize = size/2;
-            boolean[][] nw = new boolean[halfSize][halfSize];
-            boolean[][] ne = new boolean[halfSize][halfSize];
-            boolean[][] sw = new boolean[halfSize][halfSize];
-            boolean[][] se = new boolean[halfSize][halfSize];
+            int[][] nw = new int[halfSize][halfSize];
+            int[][] ne = new int[halfSize][halfSize];
+            int[][] sw = new int[halfSize][halfSize];
+            int[][] se = new int[halfSize][halfSize];
             for (int i = 0; i < halfSize; i++) {
                 for (int j = 0; j < halfSize; j++) {
                     nw[i][j] = bg[i][j];
@@ -67,104 +97,88 @@ public class Hashlife {
             QuadNode seNode = buildQuadtree(se, halfSize);
             QuadNode neNode = buildQuadtree(ne, halfSize);
             QuadNode nwNode = buildQuadtree(nw, halfSize);
-            node = this.buildNode(swNode, seNode, neNode, nwNode);
+            node = QuadNode.create(swNode, seNode, neNode, nwNode);
         }
         return node;
     }
     /**
-
-     Construit un nouveau noeud de quadrillage à partir de quatre noeuds fils qui représentent les sous-quadrants Sud-Ouest, Sud-Est, Nord-Est et Nord-Ouest.
-     Le nouveau noeud est stocké dans la structure de données du QuadTree et retourné.
-     @param sw le noeud fils Sud-Ouest
-     @param se le noeud fils Sud-Est
-     @param ne le noeud fils Nord-Est
-     @param nw le noeud fils Nord-Ouest
-     @return le nouveau noeud construit
+     * Sauter le nombre de générations spécifié dans le jeu de la vie.
+     *
+     * @param grid Une grille carrée représentant l'état initial du jeu.
+     * @param generations Le nombre de générations à sauter.
+     * @return Une grille représentant l'état du jeu après avoir sauté le nombre de générations spécifié.
+     *
+     * @pre La grille d'entrée doit être carrée et avoir une taille supérieure ou égale à 2.
+     * @pre La valeur de generations doit être un entier positif ou nul.
+     * @post La grille renvoyée est de la même taille que la grille d'entrée.
+     * @post La grille renvoyée représente l'état du jeu après avoir sauté le nombre de générations spécifié.
+     * @post Les cellules de la grille renvoyée sont mises à jour selon les règles du jeu de la vie.
+     * @post Les cellules de la grille renvoyée sont soit vivantes, soit mortes.
      */
 
-    public QuadNode buildNode(QuadNode sw, QuadNode se, QuadNode ne, QuadNode nw) {
-        QuadNode node = new QuadNode(sw, se, ne, nw);
-        this.nodes.putIfAbsent(node, node);
-        return this.nodes.get(node);
-    }
-    /**
-
-     Construit un nouveau noeud de quadrillage à partir d'un état initial de cellule donné.
-     Le nouveau noeud est stocké dans la structure de données du QuadTree et retourné.
-     @param state l'état initial de la cellule à représenter dans le nouveau noeud
-     @return le nouveau noeud construit
-     */
-
-    public QuadNode buildNode(boolean state) {
-        QuadNode node = new QuadNode(state);
-        this.nodes.putIfAbsent(node, node);
-        return this.nodes.get(node);
-    }
-    /**
-
-     Ajoute une bordure vide (cellules mortes) autour d'un noeud de quadrillage donné et retourne le nouveau noeud créé.
-     La profondeur du nouveau noeud créé est la même que celle du noeud d'origine.
-     @param node le noeud de quadrillage auquel ajouter une bordure
-     @return le nouveau noeud créé avec la bordure ajoutée
-     */
-    public QuadNode addBorder(QuadNode node) {
-        QuadNode nodeBorder = this.buildNode(false);
-        for (int i=0; i < node.getDepth()-1; i++) {
-            nodeBorder = this.buildNode(nodeBorder, nodeBorder, nodeBorder, nodeBorder);
+    public Grid jumpGenerations(Grid grid, int generations) {
+        if (generations == 0) {
+            return grid;
         }
-        QuadNode sw = this.buildNode(nodeBorder, nodeBorder, node.getSW(), nodeBorder);
-        QuadNode se = this.buildNode(nodeBorder, nodeBorder, nodeBorder, node.getSE());
-        QuadNode ne = this.buildNode(node.getNE(), nodeBorder, nodeBorder, nodeBorder);
-        QuadNode nw = this.buildNode(nodeBorder, node.getNW(), nodeBorder, nodeBorder);
-        return this.buildNode(sw, se, ne, nw);
-    }
-    /**
 
-     Calcule la prochaine génération de l'état de la grille de jeu de la vie à partir de la grille de jeu de la vie donnée.
-     Convertit la grille de jeu de la vie en une structure de données de quadrillage (QuadTree), ajoute une bordure vide autour du QuadTree, calcule la prochaine génération du QuadTree, puis convertit le QuadTree résultant en une grille de jeu de la vie.
-     @param grid la grille de jeu de la vie à partir de laquelle calculer la prochaine génération
-     @return la grille de jeu de la vie représentant la prochaine génération de l'état du jeu de la vie
-     */
-    public Grid nextGeneration(Grid grid) {
         QuadNode node = this.convertToQuadtree(grid);
-        node = this.addBorder(node);
-        node = this.computeNextGeneration(node);
-        return this.convertToGrid(node);
+
+        // Keep adding borders to the tree to skip more generations at once
+        int jump = (int) Math.pow(2, node.getDepth()-2);
+        int addedBorders = 0;
+        while (generations >= jump*2) {
+            node = node.addBorder();
+            jump = (int) Math.pow(2, node.getDepth()-2);
+            addedBorders++;
+        }
+
+        // Compute many generations, trim added borders and reset results
+        if (addedBorders > 0) {
+            node = this.computeNextGeneration(node, true);
+            for (int i=0; i<addedBorders-1;i++) {
+                node = node.getCenter();
+            }
+            // Clear results
+            QuadNode.results = new HashMap<>();
+
+            generations = generations - jump;
+        }
+
+        // Compute a single generation at a time
+        for (int i=0; i < generations; i++) {
+            node = node.addBorder();
+            node = this.computeNextGeneration(node, false);
+        }
+
+        return this.cleanBorders(this.convertToGrid(node), grid.getNbLine(), grid.getNbColum());
     }
     /**
 
-     Renvoie le noeud central d'un quadrillage donné en tant que nouvel objet QuadNode construit à partir des noeuds voisins du noeud donné.
-     @param node le noeud dont le centre doit être récupéré
-     @return le noeud central de la grille donnée, construit à partir des noeuds voisins du noeud donné
+     Calcule et renvoie le prochain niveau de la hiérarchie du quadtree à partir du nœud donné.
+     @param node le nœud à partir duquel le prochain niveau doit être calculé
+     @param fast un indicateur de performance, si "true" alors le calcul est effectué plus rapidement mais avec moins de précision
+     @pre le nœud "node" est un nœud valide dans la hiérarchie du quadtree
+     @pre l'indicateur "fast" est soit "true" soit "false"
+     @post le résultat est un nœud valide dans la hiérarchie du quadtree, représentant le prochain niveau de la hiérarchie à partir du nœud donné
+     @return le prochain niveau de la hiérarchie du quadtree à partir du nœud donné
      */
-    private QuadNode getCenterNode(QuadNode node) {
-        return this.buildNode(node.getSW().getNE(), node.getSE().getNW(), node.getNE().getSW(), node.getNW().getSE());
-    }
-    /**
-
-     Calcule la génération suivante pour un noeud donné dans l'arbre QuadTree.
-     Si le noeud a une population de 0, retourne le noeud central de son carré parent.
-     Si le noeud a déjà été calculé et stocké dans la table de hachage 'results', retourne ce noeud calculé.
-     Si le noeud est à une profondeur de 2 (c'est-à-dire qu'il a des feuilles), convertit le noeud en grille,
-     calcule la prochaine génération de la grille avec un générateur de grille donné,
-     convertit la grille résultante en QuadTree et retourne le noeud central de ce nouveau QuadTree.
-     Si le noeud n'a pas de feuilles, divise le carré en 9 carrés plus petits et récursivement
-     calcule la génération suivante pour chacun d'entre eux. Ensuite, construit un nouveau noeud QuadTree
-     en utilisant les noeuds calculés pour les carrés voisins et retourne le noeud central de ce nouveau QuadTree.
-     @param node le noeud pour lequel on calcule la génération suivante
-     @return le noeud central du QuadTree représentant la génération suivante pour le noeud donné
-     */
-    private QuadNode computeNextGeneration(QuadNode node) {
+    private QuadNode computeNextGeneration(QuadNode node, boolean fast) {
         QuadNode resultNode;
+
         if (node.getPopulation() == 0) {
-            return this.getCenterNode(node);
-        } else if (this.results.get(node) != null) {
-            return this.results.get(node);
-        } else if (node.getDepth() == 2) {
+            return node.getCenter();
+        }
+
+        resultNode = node.next();
+        if (resultNode != null) {
+            return resultNode;
+        }
+
+        if (node.getDepth() == 2) {
             Grid grid = this.convertToGrid(node);
             Grid nextGrid = this.generator.nextGeneration(grid);
             QuadNode nextNode = this.convertToQuadtree(nextGrid);
-            resultNode = this.getCenterNode(nextNode);
+            resultNode = nextNode.getCenter();
         } else {
             /*
              * n1 | n2 | n3
@@ -173,42 +187,52 @@ public class Hashlife {
              * ---|----|---
              * n7 | n8 | n9
              */
-            QuadNode n7 = this.buildNode(node.getSW().getSW(), node.getSW().getSE(), node.getSW().getNE(), node.getSW().getNW());
-            QuadNode n4 = this.buildNode(node.getSW().getNW(), node.getSW().getNE(), node.getNW().getSE(), node.getNW().getSW());
-            QuadNode n1 = this.buildNode(node.getNW().getSW(), node.getNW().getSE(), node.getNW().getNE(), node.getNW().getNW());
-            QuadNode n8 = this.buildNode(node.getSW().getSE(), node.getSE().getSW(), node.getSE().getNW(), node.getSW().getNE());
-            QuadNode n5 = this.buildNode(node.getSW().getNE(), node.getSE().getNW(), node.getNE().getSW(), node.getNW().getSE());
-            QuadNode n2 = this.buildNode(node.getNW().getSE(), node.getNE().getSW(), node.getNE().getNW(), node.getNW().getNE());
-            QuadNode n9 = this.buildNode(node.getSE().getSW(), node.getSE().getSE(), node.getSE().getNE(), node.getSE().getNW());
-            QuadNode n6 = this.buildNode(node.getSE().getNW(), node.getSE().getNE(), node.getNE().getSE(), node.getNE().getSW());
-            QuadNode n3 = this.buildNode(node.getNE().getSW(), node.getNE().getSE(), node.getNE().getNE(), node.getNE().getNW());
+            QuadNode n7 = QuadNode.create(node.getSW().getSW(), node.getSW().getSE(), node.getSW().getNE(), node.getSW().getNW());
+            QuadNode n4 = QuadNode.create(node.getSW().getNW(), node.getSW().getNE(), node.getNW().getSE(), node.getNW().getSW());
+            QuadNode n1 = QuadNode.create(node.getNW().getSW(), node.getNW().getSE(), node.getNW().getNE(), node.getNW().getNW());
 
-            QuadNode r7 = this.computeNextGeneration(n7);
-            QuadNode r8 = this.computeNextGeneration(n8);
-            QuadNode r9 = this.computeNextGeneration(n9);
-            QuadNode r4 = this.computeNextGeneration(n4);
-            QuadNode r5 = this.computeNextGeneration(n5);
-            QuadNode r6 = this.computeNextGeneration(n6);
-            QuadNode r1 = this.computeNextGeneration(n1);
-            QuadNode r2 = this.computeNextGeneration(n2);
-            QuadNode r3 = this.computeNextGeneration(n3);
+            QuadNode n8 = QuadNode.create(node.getSW().getSE(), node.getSE().getSW(), node.getSE().getNW(), node.getSW().getNE());
+            QuadNode n5 = QuadNode.create(node.getSW().getNE(), node.getSE().getNW(), node.getNE().getSW(), node.getNW().getSE());
+            QuadNode n2 = QuadNode.create(node.getNW().getSE(), node.getNE().getSW(), node.getNE().getNW(), node.getNW().getNE());
 
-            QuadNode sw = this.getCenterNode(this.buildNode(r7, r8, r5, r4));
-            QuadNode se = this.getCenterNode(this.buildNode(r8, r9, r6, r5));
-            QuadNode nw = this.getCenterNode(this.buildNode(r4, r5, r2, r1));
-            QuadNode ne = this.getCenterNode(this.buildNode(r5, r6, r3, r2));
+            QuadNode n9 = QuadNode.create(node.getSE().getSW(), node.getSE().getSE(), node.getSE().getNE(), node.getSE().getNW());
+            QuadNode n6 = QuadNode.create(node.getSE().getNW(), node.getSE().getNE(), node.getNE().getSE(), node.getNE().getSW());
+            QuadNode n3 = QuadNode.create(node.getNE().getSW(), node.getNE().getSE(), node.getNE().getNE(), node.getNE().getNW());
 
-            resultNode = this.buildNode(sw, se, ne, nw);
+            QuadNode r7 = this.computeNextGeneration(n7, fast);
+            QuadNode r8 = this.computeNextGeneration(n8, fast);
+            QuadNode r9 = this.computeNextGeneration(n9, fast);
+            QuadNode r4 = this.computeNextGeneration(n4, fast);
+            QuadNode r5 = this.computeNextGeneration(n5, fast);
+            QuadNode r6 = this.computeNextGeneration(n6, fast);
+            QuadNode r1 = this.computeNextGeneration(n1, fast);
+            QuadNode r2 = this.computeNextGeneration(n2, fast);
+            QuadNode r3 = this.computeNextGeneration(n3, fast);
+
+            QuadNode sw, se, nw, ne;
+            if (!fast) {
+                sw = QuadNode.create(r7, r8, r5, r4).getCenter();
+                se = QuadNode.create(r8, r9, r6, r5).getCenter();
+                nw = QuadNode.create(r4, r5, r2, r1).getCenter();
+                ne = QuadNode.create(r5, r6, r3, r2).getCenter();
+            } else {
+                sw = this.computeNextGeneration(QuadNode.create(r7, r8, r5, r4), true);
+                se = this.computeNextGeneration(QuadNode.create(r8, r9, r6, r5), true);
+                nw = this.computeNextGeneration(QuadNode.create(r4, r5, r2, r1), true);
+                ne = this.computeNextGeneration(QuadNode.create(r5, r6, r3, r2), true);
+            }
+            resultNode = QuadNode.create(sw, se, ne, nw);
         }
 
-        this.results.put(node, resultNode);
-        return resultNode;
+        return node.addNext(resultNode);
     }
 
     /**
-     * Convertit un QuadTree en grille.
-     * @param root le noeud racine du QuadTree
-     * @return la grille correspondante
+     * Convertit un arbre QuadTree en une grille (Grid) de cellules.
+     * @param root Le noeud racine de l'arbre QuadTree.
+     * @return Une grille (Grid) de cellules représentant l'arbre QuadTree.
+     * @pre root != null
+     * @post La grille (Grid) retournée a les mêmes dimensions que l'arbre QuadTree représenté par le noeud racine root.
      */
     public Grid convertToGrid(QuadNode root) {
         int size = root.getSize();
@@ -218,16 +242,19 @@ public class Hashlife {
         return grid;
     }
     /**
-     * Fonction récursive pour convertir un QuadTree en grille.
-     * @param node le noeud courant du QuadTree
-     * @param board la grille à remplir
-     * @param x l'abscisse du coin supérieur gauche du sous-quadtree courant dans la grille
-     * @param y l'ordonnée du coin supérieur gauche du sous-quadtree courant dans la grille
-     * @param size la taille du sous-quadtree courant
+
+     Convertit un QuadTree en une grille de cellules.
+     @param node le QuadNode à convertir.
+     @param board la grille de cellules à remplir.
+     @param x la position en x où commencer à remplir la grille.
+     @param y la position en y où commencer à remplir la grille.
+     @param size la taille de la grille à remplir.
+     @throws IllegalArgumentException si la grille ou le QuadNode est null, ou si la taille de la grille est négative ou supérieure à la taille de la grille.
+     @ensures La grille de cellules board est remplie avec les états du QuadTree node, en commençant à la position (x,y) et avec une taille de size.
      */
     private void convertToGridRecursive(QuadNode node, Cellule[][] board, int x, int y, int size) {
         if (node.getSW() == null ){
-            int state = node.getState() ? 1 : 0;
+            int state = node.getState();
             for (int i = x; i < x + size; i++) {
                 for (int j = y; j < y + size; j++) {
                     board[i][j] = new Cellule(new Position(i, j), state);
