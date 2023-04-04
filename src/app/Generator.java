@@ -79,7 +79,9 @@ public class Generator {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < col; j++) {
                 int liveNeighbors = countAliveNeighbors(i, j, grid);
-                if (board[i][j].getEtat() == 1) {
+                if (board[i][j].getEtat() == -1){
+                    nextBoard[i][j].setEtat(-1);
+                }else if (board[i][j].getEtat() == 1) {
                     if (rule.checkSurvive(liveNeighbors)) {
                     	nextBoard[i][j].setEtat(1);
                     } else {

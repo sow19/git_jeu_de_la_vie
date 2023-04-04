@@ -169,4 +169,21 @@ public class Grid{
         chaine+="\n";
         return chaine;
     }
+    /**
+
+     Compare si deux grilles sont égales.
+     Deux grilles sont considérées comme égales si elles ont les mêmes dimensions et les mêmes états de cellules.
+     @param obj l'objet à comparer avec cette grille.
+     @return true si les deux grilles sont égales, false sinon.
+     */
+    public boolean equals(Object obj) {
+        for (int i = 0; i < this.board.length; i++){
+            for (int j = 0; j < this.board[i].length; j++) {
+                if (this.board[i][j].getEtat() != ((Grid) obj).getBoard()[i][j].getEtat()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

@@ -49,6 +49,7 @@ public class Position {
         return col;
     }
 
+
      /**
      * Set the value of column
      * @param col The column
@@ -56,8 +57,38 @@ public class Position {
     public void setCol(int col) {
         this.col = col;
     }
+    
+    
+    
 
-    @Override
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + col;
+		result = prime * result + row;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		if (col != other.col)
+			return false;
+		if (row != other.row)
+			return false;
+		return true;
+	}
+
+
+
+    /* @Override
     public boolean equals(Object o) {
         // If the object is compared with itself then return true 
         if (o == this) {
@@ -66,14 +97,15 @@ public class Position {
  
         /* Check if o is an instance of Position or not
           "null instanceof [type]" also returns false */
-        if (!(o instanceof Position)) {
+      /*  if (!(o instanceof Position)) {
             return false;
         }
 
         // typecast o to Position so that we can compare data members
         Position otherPosition = (Position) o;
         return (this.row == otherPosition.getRow() && this.col == otherPosition.getCol());
-    }
+    }*/
+    
     
     
 }
