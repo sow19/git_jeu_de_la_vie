@@ -40,6 +40,10 @@ public class Grid{
     	return board[0].length;
     }
 
+    public Cellule getCellule(int i, int j) {
+        return board[i][j];
+    }
+
     /**
 
      Initialise les cellules de la grille pour avoir un état initial de 1 pour chaque position donnée dans le tableau de Positions.

@@ -7,13 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-public class GraphiqueGrid extends JComponent {
-	public GraphiqueGrid() {
-		this.setLayout(new GridLayout(5,5));
-		for(int i=0;i<20;i++) {
-			this.add(new JButton("bt"+i));
-		}
-//		Canvas canvas= new Canvas();
-		
+import model.Grid;
+
+public class RenduClassic extends JPanel {
+
+	public static final long serialVersionUID = 1L;
+
+	public Grid grid;
+	public RenduClassic(Grid grid) {
+
 	}
 }

@@ -1,6 +1,7 @@
 package app;
 
 import model.Grid;
+import model.hashlife.Hashlife;
 
 /**
  * The class which play the game
@@ -45,6 +46,23 @@ public class Game{
 		// We generate next generations until all cells of the grid are dead
 		while(!this.grid.isAllDead()) {
 			this.grid = this.generator.nextGeneration(this.grid);
+			System.out.println("nouveau");
+			System.out.println(this.grid.toString());
+			break; //
+		}
+	}
+
+	public void playHashlife() {
+		// We print the grid in his initial state
+		System.out.println("ancien");
+		System.out.println(this.grid.toString());
+
+		Hashlife hashlife = new Hashlife(generator);
+
+
+		// We generate next generations until all cells of the grid are dead
+		while(!this.grid.isAllDead()) {
+			this.grid = hashlife.jumpGenerations(grid,1);
 			System.out.println("nouveau");
 			System.out.println(this.grid.toString());
 			break; //

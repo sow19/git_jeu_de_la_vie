@@ -16,13 +16,14 @@ public class Main {
 		tab[2] = new Position(1,1);
 		grid.initGridUser(tab);*/
 		Generator generator = new Generator();
-		/*Game game = new Game(grid, generator);
+		Game game = new Game(grid, generator);
 		
-		game.play();*/
-        Hashlife hashlife = new Hashlife(generator);
-        Grid new_grid = hashlife.jumpGenerations(grid,3);
+		// game.play();
+		game.playHashlife();
+//        Hashlife hashlife = new Hashlife(generator);
+//        Grid new_grid = hashlife.jumpGenerations(grid,3);
 		System.out.print(grid);
-        System.out.print(new_grid);
+//        System.out.print(new_grid);
 	}
 
 }

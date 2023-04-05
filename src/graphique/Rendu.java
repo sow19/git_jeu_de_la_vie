@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
+import model.Grid;
+
 public class Rendu extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public JPanel rendu = new JPanel(new BorderLayout());
@@ -20,7 +22,10 @@ public class Rendu extends JPanel {
 	public JRadioButton classic,hashlif;
 	public JButton zoomIn,zoomOut;
 	public float zoom=1;
-	
+
+//	private  GridGraphique grid;
+
+
 	public Rendu(){
 		this.setLayout(new BorderLayout());
 		//boutton de navigation
@@ -55,10 +60,15 @@ public class Rendu extends JPanel {
 		screen.add(this.zoomIn);
 		screen.add(this.zoomOut);
 
-		this.rendu.setPreferredSize(new Dimension(500,600));
+		//creation de panel west pour le marging
+		JPanel west = new JPanel();
+		west.setPreferredSize(new Dimension(20,0));
+
+		this.rendu.setPreferredSize(new Dimension(600,600));
 		this.rendu.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		this.rendu.add(algoPanel,BorderLayout.NORTH);
 		this.rendu.add(screen,BorderLayout.SOUTH);
+		this.rendu.add(west,BorderLayout.WEST);
 
 		JScrollPane jsc1=new JScrollPane(this.rendu);
 		JScrollPane jsc2=new JScrollPane(this.nav);
