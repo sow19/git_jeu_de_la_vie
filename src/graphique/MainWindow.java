@@ -24,19 +24,19 @@ public class MainWindow extends JFrame {
     private final Rendu zoneRendu;
 	private  GridGraphique grid;
 
-//	private Game game;
-//	private Rule rule;
+	private Game game;
+	private Rule rule;
 
 
-	public  MainWindow(){
+	public  MainWindow(Game game){
 		super("jeux de la vie");
 		JPanel contentPane= (JPanel)this.getContentPane();
 
 		this.menu = new Menu();
 		this.zoneRendu = new Rendu();
 		this.zoneConfiguration = new Config();
-//		this.game = game;
-//		this.rule = new Rule("");
+		this.game = game;
+		this.rule = new Rule("");
 		contentPane.add(menu, BorderLayout.NORTH);
 		contentPane.add(createPage(),BorderLayout.CENTER);
 
@@ -80,14 +80,18 @@ public class MainWindow extends JFrame {
 	}
 
 	public void choiceRule(ActionEvent e) {
-	if(this.zoneConfiguration.listRules.getSelectedIndex()==0){
-//		this.rule = new Rule("B2/S23");
-		this.zoneConfiguration.rulesZone.setText("B2/S23");
+		if(this.zoneConfiguration.listRules.getSelectedIndex()==0){
+	//		this.rule = new Rule("B2/S23");
+			this.zoneConfiguration.rulesZone.setText("B2/S23");
+			this.rule.setRule(Rules.GAMEOFLIFE);
+		}
+		if(this.zoneConfiguration.listRules.getSelectedIndex()==1){
+			String other=this.zoneConfiguration.rulesZone.getText();
+			this.rule.setRule(other);
+		}
 	}
-	if(this.zoneConfiguration.listRules.getSelectedIndex()==1){
-		String other=this.zoneConfiguration.rulesZone.getText();
-//		this.rule = new Rule(other);
-	}
+
+	public void eventNavigation(ActionEvent e) {
 
 	}
 

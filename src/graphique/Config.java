@@ -3,6 +3,7 @@ package graphique;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.awt.FlowLayout;
 
 import javax.swing.JTextField;
 import javax.swing.BorderFactory;
@@ -21,11 +22,13 @@ public class Config extends JPanel{
     protected JLabel iterationZone,populationZone,rulesZone;
     public JButton showGrid;
     public  JPanel panelRule;
+    JTextField txt;
     public Config(){
     //init attributs
     this.config=new JPanel();
     this.rulesZone=new JLabel();
     this.rulesZone.setPreferredSize(new Dimension(100,30));
+    this.rulesZone.setBorder(BorderFactory.createLoweredBevelBorder());
     this.iterationZone=new JLabel();
     this.iterationZone.setPreferredSize(new Dimension(100,30));
     this.iterationZone.setBorder(BorderFactory.createLoweredBevelBorder());
@@ -33,6 +36,7 @@ public class Config extends JPanel{
     this.populationZone.setPreferredSize(new Dimension(100,30));
     this.populationZone.setBorder(BorderFactory.createLoweredBevelBorder());
     this.showGrid = new JButton("Show Grid");
+    this.txt=new JTextField();
         //
     JLabel iterationlabel=new JLabel("iteration:");
     iterationlabel.setPreferredSize(new Dimension(90,20));
@@ -63,8 +67,11 @@ public class Config extends JPanel{
     panelPopulation.add(populationZone);
     //rule panel
     panelRule= new JPanel();
+    panelRule.setLayout(new FlowLayout());
+    panelRule.setPreferredSize(new Dimension(400,70));
     panelRule.add(rules);
     panelRule.add(this.rulesZone);
+
     //panel principal
     this.config.setPreferredSize(new Dimension(400,280));
     this.config.setBorder(BorderFactory.createLineBorder(Color.BLACK,1));
@@ -77,14 +84,21 @@ public class Config extends JPanel{
 }
 
 public void ajoutRule(ActionEvent action){
+
     if(this.listRules.getSelectedIndex()==0){
+        panelRule.remove(txt);
+        panelRule.setVisible(false);
         this.rulesZone.setText("B2/S23");
     }
     if(this.listRules.getSelectedIndex()==1){
-        JTextField txt=new JTextField();
-        txt.setPreferredSize(new Dimension(140,30));
+        txt.setPreferredSize(new Dimension(100,30));
+//        panelRule.remove(txt);
+        panelRule.setVisible(false);
+        this.rulesZone.setText("");
+        txt.addActionListener( event -> {
+            this.rulesZone.setText(txt.getText());
+        });
         panelRule.add(txt);
-        this.rulesZone.setText(txt.getText());
     }
     this.panelRule.revalidate();
     this.panelRule.repaint();

@@ -29,8 +29,11 @@ public class GridGraphique extends JComponent {
         this.eventClicked();
     }
 
-    public void setCell(int row, int col, boolean value) {
-        cell[row][col] = value;
+    public void setCell(int row, int col, int value) {
+        if(value==1) {
+            cell[row][col] = true;
+        }
+        cell[row][col] = false;
         repaint();
     }
 
@@ -58,8 +61,12 @@ public class GridGraphique extends JComponent {
     }
 
     public void clicked(int row, int col) {
-//        this.gridModel.initOneCellGrid(new Position(row,col), );
-        this.setCell(row,col, !this.getCell(row,col));
+        if(this.getCell(row, col)) {
+            this.gridModel.initOneCellGrid(new Position(row, col), 1);
+            this.setCell(row, col, 1);
+        }
+        this.gridModel.initOneCellGrid(new Position(row, col), 0);
+        this.setCell(row, col, 0);
     }
 
     public void eventClicked() {
@@ -80,4 +87,6 @@ public class GridGraphique extends JComponent {
             }
         });
     }
+
+
 }
