@@ -5,9 +5,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
+import java.awt.event.ActionEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
+import javax.swing.JToggleButton;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -18,7 +21,8 @@ public class Rendu extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public JPanel rendu = new JPanel(new BorderLayout());
 	public JPanel nav=new JPanel(new FlowLayout());
-	public JButton play,next,prec,stop,acc,dcel,initEtat;
+	public JButton next,prec,acc,dcel,initEtat;
+	public JToggleButton play;
 	public JRadioButton classic,hashlif;
 	public JButton zoomIn,zoomOut;
 	public float zoom=1;
@@ -29,10 +33,9 @@ public class Rendu extends JPanel {
 	public Rendu(){
 		this.setLayout(new BorderLayout());
 		//boutton de navigation
-		this.play=new JButton("play");
+		this.play=new JToggleButton("play");
 		this.next= new JButton("next");
 		this.prec= new JButton("prec");
-		this.stop= new JButton("stop");
 		this.acc= new JButton("accelerer");
 		this.dcel= new JButton("decelere");
 		this.initEtat= new JButton("debut");
@@ -53,7 +56,7 @@ public class Rendu extends JPanel {
 		algoPanel.add(this.hashlif);
 		//creation de panel nav
 		this.nav.setPreferredSize(new Dimension(100,40));
-		nav.add(this.play);nav.add(this.next);nav.add(this.prec);nav.add(this.stop);nav.add(this.acc);nav.add(this.dcel);nav.add(this.initEtat);
+		nav.add(this.play);nav.add(this.next);nav.add(this.prec);nav.add(this.acc);nav.add(this.dcel);nav.add(this.initEtat);
 		this.nav.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		//creation de panel screen
 		JPanel screen = new JPanel();
@@ -79,4 +82,5 @@ public class Rendu extends JPanel {
 	JScrollPane getRenduPanel(){
 		return new JScrollPane(this);
 	}
+
 }

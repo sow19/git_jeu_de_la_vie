@@ -12,6 +12,7 @@ import model.Grid;
 import app.Game;
 import app.Generator;
 import model.rule.Rule;
+import constants.Rules;
 
 public class MainWindow extends JFrame {
 	private static final long serialVersionUID = 7376825297884956163L;
@@ -36,11 +37,46 @@ public class MainWindow extends JFrame {
 		this.zoneRendu = new Rendu();
 		this.zoneConfiguration = new Config();
 		this.game = game;
-		this.rule = new Rule("");
+		this.rule = new Rule("B2/S23");
+//		this.grid = new GridGraphique(this.game.getGrid());
 		contentPane.add(menu, BorderLayout.NORTH);
 		contentPane.add(createPage(),BorderLayout.CENTER);
+		//events
 
 		this.zoneConfiguration.showGrid.addActionListener(this::generateListener);
+//		this.eventNavigation();
+
+		this.zoneRendu.play.addActionListener(event -> {
+//			while (this.zoneRendu.play.isSelected()) {
+			if(this.zoneRendu.play.isSelected()){
+				this.zoneRendu.play.setText("stop");
+				this.game.setGrid(this.game.getGenerator().nextGeneration(this.game.getGrid()));
+				System.out.println(this.game.getGrid());
+//				this.grid.setGridModel(this.game.getGrid());
+//				this.grid.revalidate();
+//				this.grid.setVisible(false);
+//				this.grid.setVisible(true);
+//				this.grid.repaint();
+			}else{
+				this.zoneRendu.play.setText("play");
+			}
+//				try {
+//					Thread.sleep(10);
+//				} catch (InterruptedException e) {
+//				}
+//				Thread.sleep(10);
+//			}
+			this.grid.setVisible(false);
+			this.grid.setVisible(true);
+			this.grid.repaint();
+			this.zoneRendu.rendu.repaint();
+			this.zoneRendu.rendu.setVisible(false);
+			this.zoneRendu.rendu.setVisible(true);
+		});
+
+
+		this.zoneConfiguration.listRules.addActionListener(this::choiceRule);
+
 		this.setSize(screenWith,screenheight);
 		// this.pack();
 		this.setLocationRelativeTo(null);
@@ -65,15 +101,13 @@ public class MainWindow extends JFrame {
 			this.zoneRendu.rendu.setVisible(false);
 		}
 		if(this.zoneRendu.classic.isSelected()){
-			this.grid = new GridGraphique(new Grid(100,100));
+			this.grid = new GridGraphique(game.getGrid());
+
 			this.grid.repaint();
 			this.grid.setVisible(false);
 			this.grid.setVisible(true);
 			this.zoneRendu.rendu.add(this.grid,BorderLayout.CENTER);
 		}
-//		if(this.zoneRendu.hashlif.isSelected()){
-//
-//		}
 		this.zoneRendu.rendu.repaint();
 		this.zoneRendu.rendu.setVisible(false);
 		this.zoneRendu.rendu.setVisible(true);
@@ -81,18 +115,47 @@ public class MainWindow extends JFrame {
 
 	public void choiceRule(ActionEvent e) {
 		if(this.zoneConfiguration.listRules.getSelectedIndex()==0){
-	//		this.rule = new Rule("B2/S23");
+			this.zoneConfiguration.panelRule.remove(this.zoneConfiguration.txt);
+			this.zoneConfiguration.panelRule.setVisible(false);
 			this.zoneConfiguration.rulesZone.setText("B2/S23");
-			this.rule.setRule(Rules.GAMEOFLIFE);
 		}
 		if(this.zoneConfiguration.listRules.getSelectedIndex()==1){
-			String other=this.zoneConfiguration.rulesZone.getText();
-			this.rule.setRule(other);
+			this.zoneConfiguration.txt.setPreferredSize(new Dimension(100,30));
+//        panelRule.remove(txt);
+			this.zoneConfiguration.panelRule.setVisible(false);
+			this.zoneConfiguration.rulesZone.setText("");
+			this.zoneConfiguration.txt.addActionListener( event -> {
+				this.zoneConfiguration.rulesZone.setText(this.zoneConfiguration.txt.getText());
+				this.zoneConfiguration.panelRule.remove(this.zoneConfiguration.txt);
+				this.zoneConfiguration.panelRule.setVisible(false);
+				this.zoneConfiguration.panelRule.setVisible(true);
+			});
+			this.zoneConfiguration.panelRule.add(this.zoneConfiguration.txt);
 		}
+		this.zoneConfiguration.panelRule.revalidate();
+		this.zoneConfiguration.panelRule.repaint();
+		this.zoneConfiguration.panelRule.setVisible(false);
+		this.zoneConfiguration.panelRule.setVisible(true);
 	}
 
-	public void eventNavigation(ActionEvent e) {
+//	public void eventNavigation() {
+//			if(this.zoneRendu.play.isSelected()){
+//				this.zoneRendu.play.addActionListener(event -> {
+//					while (this.zoneRendu.play.isSelected()) {
+//						this.game.setGrid(this.game.getGenerator().nextGeneration(this.game.getGrid()));
+//						this.grid.setVisible(false);
+//						this.grid.setVisible(true);
+//						this.grid.repaint();
+//					}
+//					this.zoneRendu.rendu.repaint();
+//					this.zoneRendu.rendu.setVisible(false);
+//					this.zoneRendu.rendu.setVisible(true);
+//				});
+//			}
+//	}
 
+	public void playGraphique() {
+		this.game.getGenerator().nextGeneration(this.game.getGrid());
 	}
 
 }

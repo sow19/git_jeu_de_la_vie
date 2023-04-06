@@ -10,6 +10,7 @@ import java.awt.event.MouseListener;
 
 
 import model.Grid;
+import model.Position;
 
 public class GridGraphique extends JComponent {
     public static final long serialVersionUID = 1L;
@@ -32,11 +33,16 @@ public class GridGraphique extends JComponent {
     public void setCell(int row, int col, int value) {
         if(value==1) {
             cell[row][col] = true;
-        }
+            this.gridModel.getBoard()[row][col].setEtat(1);
+        }else{
         cell[row][col] = false;
+        this.gridModel.getBoard()[row][col].setEtat(0);
+        }
         repaint();
     }
-
+    public void setGridModel(Grid grid) {
+        this.gridModel = grid;
+    }
     public boolean getCell(int row, int col) {
         return cell[row][col];
     }
@@ -62,13 +68,13 @@ public class GridGraphique extends JComponent {
 
     public void clicked(int row, int col) {
         if(this.getCell(row, col)) {
-            this.gridModel.initOneCellGrid(new Position(row, col), 1);
-            this.setCell(row, col, 1);
+            this.gridModel.initOneCellGrid(new Position(row, col), 0);
+            this.setCell(row, col, 0);
+        }else{
+        this.gridModel.initOneCellGrid(new Position(row, col), 1);
+        this.setCell(row, col, 1);
         }
-        this.gridModel.initOneCellGrid(new Position(row, col), 0);
-        this.setCell(row, col, 0);
     }
-
     public void eventClicked() {
         this.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {

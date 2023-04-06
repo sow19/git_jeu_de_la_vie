@@ -16,8 +16,8 @@ public class Demo {
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
 		// TODO Auto-generated method stub
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-//		new MainWindow(new Game(new Grid(12, 12), new Generator(new Rule(Rules.GAMEOFLIFE))));
-		new MainWindow();
+		new MainWindow(new Game(new Grid(20, 20), new Generator(new Rule("B2/S23"))));
+//		new MainWindow();
 	}
 
 }
