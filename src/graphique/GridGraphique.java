@@ -28,6 +28,7 @@ public class GridGraphique extends JComponent {
         this.cols = this.gridModel.getNbColum();
         cell = new boolean[rows][cols];
         this.eventClicked();
+//        this.setPreferredSize(new java.awt.Dimension(this.getWidth(), this.getHeight()));
     }
 
     public void setCell(int row, int col, int value) {

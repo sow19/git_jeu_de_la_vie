@@ -16,7 +16,9 @@ public class Rule {
     
 
     //getters and stters
-
+    public void setRule(String rule){
+        this.read(rule);
+    }
     public RuleFormat getBornRule() {
         return bornRule;
     }
