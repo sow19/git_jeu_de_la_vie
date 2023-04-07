@@ -12,9 +12,10 @@ import model.Grid;
 import app.Game;
 import app.Generator;
 import model.rule.Rule;
+import util.ListeningModel;
 import constants.Rules;
 
-public class MainWindow extends JFrame {
+public class MainWindow extends JFrame implements ListeningModel {
 	private static final long serialVersionUID = 7376825297884956163L;
     Dimension tailleEcran = Toolkit.getDefaultToolkit().getScreenSize();
     int screenWith = (tailleEcran.width*2/3)+150;
@@ -37,6 +38,8 @@ public class MainWindow extends JFrame {
 		this.zoneRendu = new Rendu();
 		this.zoneConfiguration = new Config();
 		this.game = game;
+		this.game.addListening(this);
+
 		this.rule = new Rule("B2/S23");
 //		this.grid = new GridGraphique(this.game.getGrid());
 		contentPane.add(menu, BorderLayout.NORTH);
@@ -50,13 +53,9 @@ public class MainWindow extends JFrame {
 //			while (this.zoneRendu.play.isSelected()) {
 			if(this.zoneRendu.play.isSelected()){
 				this.zoneRendu.play.setText("stop");
-				this.game.setGrid(this.game.getGenerator().nextGeneration(this.game.getGrid()));
-				System.out.println(this.game.getGrid());
-//				this.grid.setGridModel(this.game.getGrid());
-//				this.grid.revalidate();
-//				this.grid.setVisible(false);
-//				this.grid.setVisible(true);
-//				this.grid.repaint();
+
+				this.game.play();
+				
 			}else{
 				this.zoneRendu.play.setText("play");
 			}
@@ -155,7 +154,13 @@ public class MainWindow extends JFrame {
 //	}
 
 	public void playGraphique() {
-		this.game.getGenerator().nextGeneration(this.game.getGrid());
+		this.game.play();
+	}
+
+	@Override
+	public void modeleMIsAJour(Object source, Object notification) {
+		//System.out.println("new one");
+		this.grid.setGridModel(this.game.getGrid());
 	}
 
 }
