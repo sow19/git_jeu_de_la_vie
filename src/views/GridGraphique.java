@@ -1,5 +1,6 @@
-package graphique;
+package views;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 
 import java.awt.Color;
@@ -22,12 +23,39 @@ public class GridGraphique extends JComponent {
     private int rows=0;
     private int cols=0;
 
+    protected int cellWidth;
+    protected int cellHeight;
+
+    public Grid getGridModel() {
+        return gridModel;
+    }
+
     public GridGraphique(Grid grid) {
         this.gridModel = grid;
         this.rows = this.gridModel.getNbLine();
         this.cols = this.gridModel.getNbColum();
         cell = new boolean[rows][cols];
+        
         this.eventClicked();
+        this.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+        repaint();
+    }
+
+
+    public int getCellWidth() {
+        return cellWidth;
+    }
+
+    public void setCellWidth(int cellWidth) {
+        this.cellWidth = cellWidth;
+    }
+
+    public int getCellHeight() {
+        return cellHeight;
+    }
+
+    public void setCellHeight(int cellHeight) {
+        this.cellHeight = cellHeight;
     }
 
     public void setCell(int row, int col, int value) {
@@ -42,6 +70,10 @@ public class GridGraphique extends JComponent {
     }
     public void setGridModel(Grid grid) {
         this.gridModel = grid;
+        this.rows = this.gridModel.getNbLine();
+        this.cols = this.gridModel.getNbColum();
+        cell = new boolean[rows][cols];
+        this.repaint();
     }
     public boolean getCell(int row, int col) {
         return cell[row][col];
@@ -50,15 +82,20 @@ public class GridGraphique extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
     super.paintComponent(g);
-    int cellWidth = this.getWidth() / this.cols;
-    int cellHeight = this.getHeight() / this.rows;
+
+        cellWidth = this.getWidth() / this.cols;
+        cellHeight = this.getHeight() / this.rows;
+
         for (int i = 0; i < this.rows; i++) {
             for (int j = 0; j < this.cols; j++) {
                 g.setColor(Color.GRAY);
                 g.drawRect(j * cellWidth-1, i * cellHeight-1, cellWidth-1, cellHeight-1);
+                System.out.println("hello");
                 if (this.getCell(i, j)) {
+                    System.out.println("true");
                     g.setColor(Color.WHITE);
                 } else {
+                    System.out.println("false");
                     g.setColor(Color.BLACK);
                 }
                 g.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
@@ -68,9 +105,11 @@ public class GridGraphique extends JComponent {
 
     public void clicked(int row, int col) {
         if(this.getCell(row, col)) {
+            System.out.println("true");
             this.gridModel.initOneCellGrid(new Position(row, col), 0);
             this.setCell(row, col, 0);
         }else{
+            System.out.println("false");
         this.gridModel.initOneCellGrid(new Position(row, col), 1);
         this.setCell(row, col, 1);
         }
@@ -78,8 +117,8 @@ public class GridGraphique extends JComponent {
     public void eventClicked() {
         this.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                int row = GridGraphique.this.getHeight()/e.getY();
-                int col = GridGraphique.this.getWidth()/e.getX();
+                int row = e.getY() / cellHeight;
+                int col = e.getX() / cellWidth;
                 clicked(row, col);
                 System.out.println(row + " " + col);
             }
