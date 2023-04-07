@@ -24,4 +24,6 @@ public class Cellule {
 	public void setEtat(int etat) {
 		this.etat = etat;
 	}
+
+	// public boolean getBooleanState
 }

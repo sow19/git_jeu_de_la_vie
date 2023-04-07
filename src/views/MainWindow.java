@@ -159,6 +159,7 @@ public class MainWindow extends JFrame implements ListeningModel {
 
 	@Override
 	public void modeleMIsAJour(Object source, Object notification) {
+		//System.out.println("new one");
 		this.grid.setGridModel(this.game.getGrid());
 	}
 

@@ -49,9 +49,15 @@ public class Game extends AbstractListenableModel {
 		while(!this.grid.isAllDead()) {
 			this.grid = this.generator.nextGeneration(this.grid);
 			this.fireChangement(null);
-			System.out.println("nouveau");
-			System.out.println(this.grid.toString());
-			break; //
+			// System.out.println("nouveau");
+			// System.out.println(this.grid.toString());
+			// try {
+			// 	Thread.sleep(1000);
+			// } catch (InterruptedException e) {
+			// 	// TODO Auto-generated catch block
+			// 	e.printStackTrace();
+			// }
+			//break; 
 		}
 	}
 

@@ -44,6 +44,22 @@ public class Grid{
         return board[i][j];
     }
 
+    public boolean[][] getBooleanBoard() {
+        boolean[][] boolBoard = new boolean[getRows()][getCols()];
+
+        for (int i = 0; i < this.board.length; i++){
+            for (int j = 0; j < board[i].length; j++) {
+                boolBoard[i][j] = this.board[i][j].getEtat() == 1 ? true : false;
+            }
+        }
+
+        return boolBoard;
+    }
+
+    public boolean getCellState(int i, int j) {
+        return this.board[i][j].getEtat() == 1 ? true : false;
+    }
+
     /**
 
      Initialise les cellules de la grille pour avoir un état initial de 1 pour chaque position donnée dans le tableau de Positions.
