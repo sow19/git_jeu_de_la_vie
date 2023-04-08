@@ -29,7 +29,7 @@ public class MainWindow extends JFrame implements ListeningModel {
 	private Game game;
 	private Rule rule;
 
-
+	/** @todo: close all thread when click on close */
 	public  MainWindow(Game game){
 		super("jeux de la vie");
 		JPanel contentPane= (JPanel)this.getContentPane();
@@ -54,9 +54,10 @@ public class MainWindow extends JFrame implements ListeningModel {
 			if(this.zoneRendu.play.isSelected()){
 				this.zoneRendu.play.setText("stop");
 
-				this.game.play();
+				this.game.runGenThread();
 				
 			}else{
+				this.game.stopGenThread();
 				this.zoneRendu.play.setText("play");
 			}
 //				try {
@@ -75,6 +76,19 @@ public class MainWindow extends JFrame implements ListeningModel {
 
 
 		this.zoneConfiguration.listRules.addActionListener(this::choiceRule);
+
+		/** @todo: this */
+		// close window 
+		// this.addWindowListener(new WindowAdapter() {
+        //     @Override
+        //     public void windowClosing(WindowEvent e) {
+        //         // Arrêtez tous les threads en cours d'exécution ici
+        //         stopAllThreads();
+        //         // Fermez la fenêtre
+        //         dispose();
+        //         System.exit(0);
+        //     }
+        // });
 
 		this.setSize(screenWith,screenheight);
 		// this.pack();

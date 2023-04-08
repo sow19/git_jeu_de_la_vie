@@ -166,6 +166,17 @@ public class Grid{
     	
     	return count;
     }
+
+
+    public void reset() {
+    	for (int i = 0; i < this.board.length; i++){
+            for (int j = 0; j < board[i].length; j++) {
+                	Cellule cell = this.board[i][j];
+                	cell.setEtat(0);
+            }
+        }
+    	
+    }
     
     /**
      * cette fonction vérifie que toutes les cellules sont mortes.

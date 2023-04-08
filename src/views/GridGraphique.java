@@ -2,6 +2,7 @@ package views;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -37,7 +38,7 @@ public class GridGraphique extends JComponent {
         this.cols = this.gridModel.getNbColum();
         
         this.eventClicked();
-        this.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
+        //this.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
         repaint();
     }
 
@@ -79,7 +80,9 @@ public class GridGraphique extends JComponent {
             for (int j = 0; j < this.cols; j++) {
                 Rectangle cell = new Rectangle(j*cellWidth, i*cellHeight, cellWidth,
                 cellHeight);
+                SwingUtilities.invokeLater(() -> {
                 paintImmediately(cell);
+            });
             }
         }
     }
@@ -115,6 +118,7 @@ public class GridGraphique extends JComponent {
         }else{
             this.gridModel.initOneCellGrid(new Position(row, col), 1);
         }
+        repaint();
     }
     public void eventClicked() {
         this.addMouseListener(new MouseListener() {

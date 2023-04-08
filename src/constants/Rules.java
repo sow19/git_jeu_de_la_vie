@@ -5,5 +5,5 @@ public final class Rules {
 		
 	}
 	
-	public static final String GAMEOFLIFE = "B2/S23";
+	public static final String GAMEOFLIFE = "B3/S23";
 }
