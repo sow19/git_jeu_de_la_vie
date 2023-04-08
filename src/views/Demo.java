@@ -5,6 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import model.Position;
 
 import model.Grid;
 import constants.Rules;
@@ -17,7 +18,15 @@ public class Demo {
 		// TODO Auto-generated method stub
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		Grid grid = new Grid(20, 20);
-		grid.initRandomGrid();
+
+		// grid.initRandomGrid();
+		grid.initPattern("patterns/Coeur.txt");
+		// Position[] tab = new Position[3];
+		// tab[0] = new Position(0,1);
+		// tab[1] = new Position(0,2);
+		// tab[2] = new Position(1,1);
+		// grid.initGridUser(tab);
+
 		Generator generator = new Generator();
 		Game game = new Game(grid, generator);
 		new MainWindow(game);
