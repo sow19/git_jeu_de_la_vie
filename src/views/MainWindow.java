@@ -1,9 +1,10 @@
-package graphique;
+package views;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.Component;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -41,43 +42,15 @@ public class MainWindow extends JFrame implements ListeningModel {
 		this.game.addListening(this);
 
 		this.rule = new Rule("B2/S23");
-//		this.grid = new GridGraphique(this.game.getGrid());
 		contentPane.add(menu, BorderLayout.NORTH);
 		contentPane.add(createPage(),BorderLayout.CENTER);
 		//events
 
 		this.zoneConfiguration.showGrid.addActionListener(this::generateListener);
-//		this.eventNavigation();
-
-		this.zoneRendu.play.addActionListener(event -> {
-//			while (this.zoneRendu.play.isSelected()) {
-			if(this.zoneRendu.play.isSelected()){
-				this.zoneRendu.play.setText("stop");
-
-				this.game.play();
-				
-			}else{
-				this.zoneRendu.play.setText("play");
-			}
-//				try {
-//					Thread.sleep(10);
-//				} catch (InterruptedException e) {
-//				}
-//				Thread.sleep(10);
-//			}
-			this.grid.setVisible(false);
-			this.grid.setVisible(true);
-			this.grid.repaint();
-			this.zoneRendu.rendu.repaint();
-			this.zoneRendu.rendu.setVisible(false);
-			this.zoneRendu.rendu.setVisible(true);
-		});
-
-
-		this.zoneConfiguration.listRules.addActionListener(this::choiceRule);
+		this.eventNavigation();
+		this.choiceRule();
 
 		this.setSize(screenWith,screenheight);
-		// this.pack();
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.setVisible(true);
@@ -100,8 +73,7 @@ public class MainWindow extends JFrame implements ListeningModel {
 			this.zoneRendu.rendu.setVisible(false);
 		}
 		if(this.zoneRendu.classic.isSelected()){
-			this.grid = new GridGraphique(game.getGrid());
-
+			this.grid = new GridGraphique(game);
 			this.grid.repaint();
 			this.grid.setVisible(false);
 			this.grid.setVisible(true);
@@ -112,7 +84,7 @@ public class MainWindow extends JFrame implements ListeningModel {
 		this.zoneRendu.rendu.setVisible(true);
 	}
 
-	public void choiceRule(ActionEvent e) {
+	public void choiceRule() {
 		if(this.zoneConfiguration.listRules.getSelectedIndex()==0){
 			this.zoneConfiguration.panelRule.remove(this.zoneConfiguration.txt);
 			this.zoneConfiguration.panelRule.setVisible(false);
@@ -120,7 +92,6 @@ public class MainWindow extends JFrame implements ListeningModel {
 		}
 		if(this.zoneConfiguration.listRules.getSelectedIndex()==1){
 			this.zoneConfiguration.txt.setPreferredSize(new Dimension(100,30));
-//        panelRule.remove(txt);
 			this.zoneConfiguration.panelRule.setVisible(false);
 			this.zoneConfiguration.rulesZone.setText("");
 			this.zoneConfiguration.txt.addActionListener( event -> {
@@ -131,36 +102,40 @@ public class MainWindow extends JFrame implements ListeningModel {
 			});
 			this.zoneConfiguration.panelRule.add(this.zoneConfiguration.txt);
 		}
+
+		this.zoneConfiguration.populationZone.setText((String.valueOf(this.game.getGrid().getAliveCell())));
+//		this.zoneConfiguration.iterationZone.setText((String.valueOf(8)));
 		this.zoneConfiguration.panelRule.revalidate();
 		this.zoneConfiguration.panelRule.repaint();
 		this.zoneConfiguration.panelRule.setVisible(false);
 		this.zoneConfiguration.panelRule.setVisible(true);
 	}
 
-//	public void eventNavigation() {
-//			if(this.zoneRendu.play.isSelected()){
-//				this.zoneRendu.play.addActionListener(event -> {
-//					while (this.zoneRendu.play.isSelected()) {
-//						this.game.setGrid(this.game.getGenerator().nextGeneration(this.game.getGrid()));
-//						this.grid.setVisible(false);
-//						this.grid.setVisible(true);
-//						this.grid.repaint();
-//					}
-//					this.zoneRendu.rendu.repaint();
-//					this.zoneRendu.rendu.setVisible(false);
-//					this.zoneRendu.rendu.setVisible(true);
-//				});
-//			}
-//	}
+	public void eventNavigation() {
+				this.zoneRendu.play.addActionListener(event -> {
+					if(this.zoneRendu.play.isSelected()){
+						this.zoneRendu.play.setText("stop");
+						this.game.play();
+					}else{
+						this.zoneRendu.play.setText("play");
+					}
+				});
 
-	public void playGraphique() {
-		this.game.play();
+				this.zoneRendu.next.addActionListener(event -> {
+					this.game.playHashlife();
+				});
+
+				this.zoneRendu.zoomIn.addActionListener(event -> {
+					this.grid.setScale(this.grid.getScale()+0.1f);
+				});
+				this.zoneRendu.zoomOut.addActionListener(event -> {
+					this.grid.setScale(this.grid.getScale()-0.1f);
+				});
 	}
 
 	@Override
 	public void modeleMIsAJour(Object source, Object notification) {
-		//System.out.println("new one");
-		this.grid.setGridModel(this.game.getGrid());
+		this.grid.repaint();
 	}
 
 }

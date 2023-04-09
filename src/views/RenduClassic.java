@@ -1,4 +1,4 @@
-package graphique;
+package views;
 
 import java.awt.Canvas;
 import java.awt.GridLayout;

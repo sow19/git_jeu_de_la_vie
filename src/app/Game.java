@@ -46,7 +46,7 @@ public class Game extends AbstractListenableModel {
 		System.out.println(this.grid.toString());
 		
 		// We generate next generations until all cells of the grid are dead
-		while(!this.grid.isAllDead()) {
+//		while(!this.grid.isAllDead()) {
 			this.grid = this.generator.nextGeneration(this.grid);
 			this.fireChangement(null);
 			// System.out.println("nouveau");
@@ -57,24 +57,26 @@ public class Game extends AbstractListenableModel {
 			// 	// TODO Auto-generated catch block
 			// 	e.printStackTrace();
 			// }
-			//break; 
-		}
+//			break;
+//		}
 	}
 
-	// public void playHashlife() {
+	 public void playHashlife() {
 	// 	// We print the grid in his initial state
 	// 	System.out.println("ancien");
 	// 	System.out.println(this.grid.toString());
 
-	// 	Hashlife hashlife = new Hashlife(generator);
+	 	Hashlife hashlife = new Hashlife(generator);
 
 
 	// 	// We generate next generations until all cells of the grid are dead
 	// 	while(!this.grid.isAllDead()) {
-	// 		this.grid = hashlife.jumpGenerations(grid,1);
-	// 		System.out.println("nouveau");
+	 		this.grid = hashlife.jumpGenerations(grid,1);
+		 this.fireChangement(null);
+
+		 // 		System.out.println("nouveau");
 	// 		System.out.println(this.grid.toString());
 	// 		break; //
 	// 	}
-	// }
+	 }
 }

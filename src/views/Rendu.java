@@ -1,4 +1,4 @@
-package graphique;
+package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,7 +18,9 @@ import javax.swing.JScrollPane;
 import model.Grid;
 
 public class Rendu extends JPanel {
+
 	private static final long serialVersionUID = 1L;
+
 	public JPanel rendu = new JPanel(new BorderLayout());
 	public JPanel nav=new JPanel(new FlowLayout());
 	public JButton next,prec,acc,dcel,initEtat;
@@ -26,8 +28,6 @@ public class Rendu extends JPanel {
 	public JRadioButton classic,hashlif;
 	public JButton zoomIn,zoomOut;
 	public float zoom=1;
-
-//	private  GridGraphique grid;
 
 
 	public Rendu(){
