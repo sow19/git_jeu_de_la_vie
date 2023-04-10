@@ -14,16 +14,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.JButton;
 
+import app.Game;
+
 public class Config extends JPanel{
     private static final long serialVersionUID = 1L;
     public JPanel config;
-    // public JComboBox<String> listePattern;
     protected JComboBox<String> listRules;
     protected JLabel iterationZone,populationZone,rulesZone;
-    public JButton showGrid;
     public  JPanel panelRule;
     public JTextField txt;
-    public Config(){
+    public Config() {
     //init attributs
         this.config=new JPanel();
         this.rulesZone=new JLabel();
@@ -35,8 +35,7 @@ public class Config extends JPanel{
         this.populationZone=new JLabel();
         this.populationZone.setPreferredSize(new Dimension(100,30));
         this.populationZone.setBorder(BorderFactory.createLoweredBevelBorder());
-        this.showGrid = new JButton("Show Grid");
-        this.txt=new JTextField();
+        this.txt=new JTextField("B3/S23");
             //
         JLabel iterationlabel=new JLabel("iteration:");
         iterationlabel.setPreferredSize(new Dimension(90,20));
@@ -53,9 +52,6 @@ public class Config extends JPanel{
         rules.add(this.listRules);
         //Action events
 
-        //panel buttons
-        JPanel panelButtons=new JPanel();
-        panelButtons.add(this.showGrid);
         //iteration panel
         JPanel panelIteration=new JPanel();
         panelIteration.add(iterationlabel);
@@ -77,7 +73,6 @@ public class Config extends JPanel{
         this.config.add(panelIteration);
         this.config.add(panelPopulation);
         this.config.add(panelRule);
-        this.config.add(panelButtons);
         JScrollPane jscp=new JScrollPane(this.config);
         this.add(jscp);
     }

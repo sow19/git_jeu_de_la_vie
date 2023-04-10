@@ -14,7 +14,7 @@ public class Menu extends JToolBar {
 	public Menu() {
 		//parie pattern
 		JLabel menu=new JLabel("Patterns:");
-		String[] choix={"pattern1","pattern2"};
+		String[] choix={"Burst.txt","Coeur.txt","Delta.txt","Lettre_txt","Sawfish.txt"};
 		this.patterns=new JComboBox<>(choix);
 		// this.patterns.setPreferredSize(new Dimension(140,30));
 		//create button aide

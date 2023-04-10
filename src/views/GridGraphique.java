@@ -15,6 +15,7 @@ import java.awt.event.MouseListener;
 
 import app.Game;
 import model.Position;
+import model.Grid;
 
 /**
  * cette classe permet de créer une grille graphique avec un jeu de la vie
@@ -90,22 +91,22 @@ public class GridGraphique extends JComponent {
          repaint();
      }
 
-//    public void setGridModel(Grid grid) {
-//        this.gridModel = grid;
+    public void setGridModel(Grid grid) {
+        this.gridModel.setGrid(grid);
 //        this.rows = this.gridModel.getNbLine();
 //        this.cols = this.gridModel.getNbColum();
-//
-//        cellWidth = this.getWidth() / this.cols;
-//        cellHeight = this.getHeight() / this.rows;
-//
-//        for (int i = 0; i < this.rows; i++) {
-//            for (int j = 0; j < this.cols; j++) {
-//                Rectangle cell = new Rectangle(j*cellWidth, i*cellHeight, cellWidth,
-//                cellHeight);
-//                paintImmediately(cell);
-//            }
-//        }
-//    }
+
+        cellWidth = this.getWidth() / this.cols;
+        cellHeight = this.getHeight() / this.rows;
+
+        for (int i = 0; i < this.rows; i++) {
+            for (int j = 0; j < this.cols; j++) {
+                Rectangle cell = new Rectangle(j*cellWidth, i*cellHeight, cellWidth,
+                cellHeight);
+                paintImmediately(cell);
+            }
+        }
+    }
 
     public boolean getCellState(int row, int col) {
         return this.gridModel.getGrid().getCellState(row, col);
@@ -127,9 +128,9 @@ public class GridGraphique extends JComponent {
                 } else {
                     g2d.setColor(Color.BLACK);
                 }
-                g2d.fillRect(j,i, cellWidth, cellHeight);
+                g2d.fillRect(j*cellWidth,i*cellHeight, cellWidth, cellHeight);
                 g2d.setColor(Color.GRAY);
-                g2d.drawRect(j, i, cellWidth,cellHeight);
+                g2d.drawRect(j*cellWidth, i*cellHeight, cellWidth,cellHeight);
             }
         }
         g2d.dispose();
@@ -160,10 +161,15 @@ public class GridGraphique extends JComponent {
     public void eventClicked() {
         this.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
-                int row = e.getY()/(2*cellHeight);
-                int col = e.getX()/(2*cellWidth);
-                clicked(row, col);
-                System.out.println(row + " " + col);
+                int row = e.getY()/cellHeight;
+                int col = e.getX()/cellWidth;
+                try {
+                    clicked(row, col);
+                } catch (Exception e1) {
+                    System.out.println(e1.getMessage());
+                }
+//                clicked(row, col);
+//                System.out.println(row + " " + col);
             }
             public void mousePressed(MouseEvent e) {
             }

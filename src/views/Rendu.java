@@ -23,7 +23,7 @@ public class Rendu extends JPanel {
 
 	public JPanel rendu = new JPanel(new BorderLayout());
 	public JPanel nav=new JPanel(new FlowLayout());
-	public JButton next,prec,acc,dcel,initEtat;
+	public JButton next,back,rapide,recule,start;
 	public JToggleButton play;
 	public JRadioButton classic,hashlif;
 	public JButton zoomIn,zoomOut;
@@ -35,14 +35,13 @@ public class Rendu extends JPanel {
 		//boutton de navigation
 		this.play=new JToggleButton("play");
 		this.next= new JButton("next");
-		this.prec= new JButton("prec");
-		this.acc= new JButton("accelerer");
-		this.dcel= new JButton("decelere");
-		this.initEtat= new JButton("debut");
+		this.back= new JButton("back");
+		this.rapide= new JButton("rapide");
+		this.recule= new JButton("reculer");
+		this.start= new JButton("reset");
 		//boutton de zoom
 		this.zoomIn= new JButton("+");
 		this.zoomOut= new JButton("-");
-		this.zoomOut.addActionListener((Event)-> this.zoom-=0.02);
 		//button radio
 		this.classic=new JRadioButton("Classic",true);
 		this.hashlif=new JRadioButton("Hashlif");
@@ -56,7 +55,7 @@ public class Rendu extends JPanel {
 		algoPanel.add(this.hashlif);
 		//creation de panel nav
 		this.nav.setPreferredSize(new Dimension(100,40));
-		nav.add(this.play);nav.add(this.next);nav.add(this.prec);nav.add(this.acc);nav.add(this.dcel);nav.add(this.initEtat);
+		nav.add(this.play);nav.add(this.next);nav.add(this.back);nav.add(this.rapide);nav.add(this.recule);nav.add(this.start);
 		this.nav.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 		//creation de panel screen
 		JPanel screen = new JPanel();
