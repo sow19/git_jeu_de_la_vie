@@ -3,6 +3,7 @@ import app.Generator;
 import model.Grid;
 import model.Position;
 import model.hashlife.Hashlife;
+import model.rule.RuleMulttF;
 
 public class Main {
 
@@ -20,9 +21,7 @@ public class Main {
 		
 		game.play();*/
         Hashlife hashlife = new Hashlife(generator);
-        Grid new_grid = hashlife.jumpGenerations(grid,3);
-		System.out.print(grid);
-        System.out.print(new_grid);
+       
 	}
 
 }

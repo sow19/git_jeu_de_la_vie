@@ -32,29 +32,67 @@ public class RuleMulttF implements RuleFormat {
 
     @Override
     public void read(String userRule) {
-       
-        try{
-            for(int i = 0 ; i< userRule.length();i++){
-                values.add(Character.getNumericValue(userRule.charAt(i)));
+        boolean isValid = true;
+        for(int i = 0 ; i < userRule.length(); i++) {
+            char c = userRule.charAt(i);
+            if (Character.isDigit(c)) {
+                values.add(Character.getNumericValue(c));
+            } else {
+                System.out.println("Entrée non valide : " + c);
+                isValid = false;
+                break;
             }
-
-        }catch (NumberFormatException e) {
-            System.out.println("entrée non valide");
         }
-    }
+        if (!isValid) {
+            values.clear();
+        }
+    }    
 
 
 
 
     /**
      *@param neighbors :le nombre de voisin d'une cellule
-     *@return  La méthode renvoie true si le nombre de voision d'une cellule se trouve dans la liste values(entrées par l'utilisateur).false sinon
+     *@return  La méthode renvoie true si le nombre de voision d'une cellule se trouve dans la liste values.false sinon
      */
 
     @Override
     public boolean check(int neighbors) {
         return values.contains(neighbors);
     }
+
+    // getter and setter
+    public ArrayList<Integer> getValues() {
+        return values;
+    }
+    public void setValues(ArrayList<Integer> values) {
+        this.values = values;
+    }
+    
+    //redéfinition de toString
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((values == null) ? 0 : values.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RuleMulttF other = (RuleMulttF) obj;
+		if (values == null) {
+			if (other.values != null)
+				return false;
+		} else if (!values.equals(other.values))
+			return false;
+		return true;
+	}
 
 
            
