@@ -52,7 +52,7 @@ public class Hashlife {
      @param columns le nombre de colonnes de la nouvelle grille
      @return la nouvelle grille avec les cellules de la grille d'origine dans les limites de la nouvelle grille
      */
-    protected Grid cleanBorders(Grid old, int rows, int columns) {
+    public Grid cleanBorders(Grid old, int rows, int columns) {
         Grid grid = new Grid(rows, columns);
         for (int i=0;i<rows; i++) {
             for (int j=0;j<columns; j++) {
