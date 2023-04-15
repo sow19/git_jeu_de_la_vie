@@ -52,19 +52,19 @@ public class TestHashlife {
 		    assertEquals("la taille de la grille resultante doit etre egale à la taille du quadTree",(Integer)4, grid.getNbColum());
 		    // Vérifier que chaque cellule de la grille a la bonne valeur
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",1, board[0][0].getEtat());
-		   // assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",1, board[0][1].getEtat());
+		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",1, board[0][1].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[0][2].getEtat());
-		    //assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[0][3].getEtat());
+		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[0][3].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[1][0].getEtat());
-		    //assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",1, board[1][1].getEtat());
+		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",1, board[1][1].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[1][2].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[1][3].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[2][0].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[2][1].getEtat());
-		   // assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",1, board[2][2].getEtat());
+		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",1, board[2][2].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[2][3].getEtat());
-		    //assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[3][0].getEtat());
-		    //assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[3][1].getEtat());
+		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[3][0].getEtat());
+		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[3][1].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",0, board[3][2].getEtat());
 		    assertEquals("l'etat doit etre le même que celle du QaudNoeud à la meme position",1, board[3][3].getEtat());
 		
