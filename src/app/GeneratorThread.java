@@ -26,8 +26,10 @@ public class GeneratorThread extends Thread {
             
             if(game.isUseHashlife()) {
                 game.nextGenerationHashlife();
+                // System.out.println("using hashfile");
             } else {
                 game.nextGenerationClassic();
+                // System.out.println("using classic");
             }
             this.iteration++;
         }
