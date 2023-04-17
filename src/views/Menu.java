@@ -12,11 +12,10 @@ public class Menu extends JToolBar {
 	public JButton aide;
 	protected JComboBox<String> patterns;
 	public Menu() {
-		//parie pattern
+		//partie pattern
 		JLabel menu=new JLabel("Patterns:");
-		String[] choix={"Burst.txt","Coeur.txt","Delta.txt","Lettre_txt","Sawfish.txt"};
+		String[] choix={"Burst.txt","Coeur.txt","Delta.txt","Lettre_L.txt","Sawfish.txt"};
 		this.patterns=new JComboBox<>(choix);
-		// this.patterns.setPreferredSize(new Dimension(140,30));
 		//create button aide
 		this.aide=new JButton("aide");
 		this.aide.setPreferredSize(new Dimension(110,30));

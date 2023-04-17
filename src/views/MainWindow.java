@@ -9,7 +9,6 @@ import java.awt.Component;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import model.Grid;
 import app.Game;
 import app.Generator;
 import model.rule.Rule;
@@ -46,12 +45,13 @@ public class MainWindow extends JFrame implements ListeningModel {
 
 		this.eventNavigation();
 		this.zoneConfiguration.listRules.addActionListener(this::choiceRule);
+		this.zoneConfiguration.listVoisins.addActionListener(this::choiceNeighborsType);
 		this.eventConfig();
 		this.menu.patterns.addActionListener(this::choicePattern);
 
 		this.setSize(screenWith,screenheight);
 		this.setLocationRelativeTo(null);
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setVisible(true);
 		this.game.addListening(this);
 	}
@@ -93,6 +93,41 @@ public class MainWindow extends JFrame implements ListeningModel {
 		this.zoneConfiguration.panelRule.setVisible(false);
 		this.zoneConfiguration.panelRule.setVisible(true);
 	}
+	public void choiceNeighborsType(ActionEvent e) {
+		if(this.zoneConfiguration.listVoisins.getSelectedIndex()==0){
+			this.zoneConfiguration.panelVoisins.remove(this.zoneConfiguration.txt2);
+			this.zoneConfiguration.panelVoisins.setVisible(false);
+			this.zoneConfiguration.panelVoisins.setVisible(true);
+
+		}
+		if(this.zoneConfiguration.listVoisins.getSelectedIndex()==1){
+			this.zoneConfiguration.panelVoisins.remove(this.zoneConfiguration.txt2);
+			this.zoneConfiguration.panelVoisins.setVisible(false);
+			this.zoneConfiguration.panelVoisins.setVisible(true);
+		}
+		if(this.zoneConfiguration.listVoisins.getSelectedIndex()==2){
+			this.zoneConfiguration.panelVoisins.remove(this.zoneConfiguration.txt2);
+			this.zoneConfiguration.panelVoisins.setVisible(false);
+			this.zoneConfiguration.panelVoisins.setVisible(true);
+		}
+		if(this.zoneConfiguration.listVoisins.getSelectedIndex()==3){
+			this.zoneConfiguration.txt2.setPreferredSize(new Dimension(200,30));
+			this.zoneConfiguration.panelVoisins.setVisible(false);
+			this.zoneConfiguration.voisinsZone.setText("");
+			this.zoneConfiguration.txt2.addActionListener( event -> {
+				this.zoneConfiguration.voisinsZone.setText(this.zoneConfiguration.txt2.getText());
+				this.zoneConfiguration.panelVoisins.remove(this.zoneConfiguration.txt2);
+				this.zoneConfiguration.panelVoisins.setVisible(false);
+				this.zoneConfiguration.panelVoisins.setVisible(true);
+			});
+
+			this.zoneConfiguration.panelVoisins.add(this.zoneConfiguration.txt2);
+		}
+		this.zoneConfiguration.panelVoisins.revalidate();
+		this.zoneConfiguration.panelVoisins.repaint();
+		this.zoneConfiguration.panelVoisins.setVisible(false);
+		this.zoneConfiguration.panelVoisins.setVisible(true);
+	}
 
 	public void eventNavigation() {
 
@@ -100,7 +135,12 @@ public class MainWindow extends JFrame implements ListeningModel {
 				this.zoneRendu.play.addActionListener(event -> {
 					if(this.zoneRendu.play.isSelected()){
 						this.zoneRendu.play.setText("stop");
-						this.game.runGenThread();
+						if(this.zoneRendu.classic.isSelected()){
+							this.game.setUseHashlife(false);
+						}else{
+							this.game.setUseHashlife(true);
+						}
+							this.game.runGenThread();
 					}else{
 						this.game.stopGenThread();
 						this.zoneRendu.play.setText("play");
@@ -133,24 +173,18 @@ public class MainWindow extends JFrame implements ListeningModel {
 				this.zoneRendu.start.addActionListener(event -> {
 					this.game.resetGrid();
 				});
-		//events pour les boutons zoom in and zoom out
-				this.zoneRendu.zoomIn.addActionListener(event -> {
-					this.grid.setScale(this.grid.getScale()+0.1f);
-				});
-				this.zoneRendu.zoomOut.addActionListener(event -> {
-					this.grid.setScale(this.grid.getScale()-0.1f);
-				});
-
 	}
 
 	public void choicePattern(ActionEvent e) {
-		String pattern ="views/"+ (String)this.menu.patterns.getSelectedItem();
+		String pattern ="../patterns/"+ (String)this.menu.patterns.getSelectedItem();
 			this.game.usePattern(pattern);
 	}
 
 	public void eventConfig() {
 		this.zoneConfiguration.iterationZone.setText((String.valueOf(this.game.getIteration())));
-		this.zoneConfiguration.populationZone.setText((String.valueOf(this.game.getNbLiveCell())));
+		this.zoneConfiguration.speedZone.setText((String.valueOf(12)));
+		this.zoneConfiguration.generationZone.setText((String.valueOf(10)));
+		this.zoneConfiguration.repaint();
 	}
 	@Override
 	public void modeleMIsAJour(Object source, Object notification) {

@@ -26,8 +26,6 @@ public class Rendu extends JPanel {
 	public JButton next,back,rapide,recule,start;
 	public JToggleButton play;
 	public JRadioButton classic,hashlif;
-	public JButton zoomIn,zoomOut;
-	public float zoom=1;
 
 
 	public Rendu(){
@@ -39,9 +37,6 @@ public class Rendu extends JPanel {
 		this.rapide= new JButton("rapide");
 		this.recule= new JButton("reculer");
 		this.start= new JButton("reset");
-		//boutton de zoom
-		this.zoomIn= new JButton("+");
-		this.zoomOut= new JButton("-");
 		//button radio
 		this.classic=new JRadioButton("Classic",true);
 		this.hashlif=new JRadioButton("Hashlif");
@@ -57,10 +52,6 @@ public class Rendu extends JPanel {
 		this.nav.setPreferredSize(new Dimension(100,40));
 		nav.add(this.play);nav.add(this.next);nav.add(this.back);nav.add(this.rapide);nav.add(this.recule);nav.add(this.start);
 		this.nav.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-		//creation de panel screen
-		JPanel screen = new JPanel();
-		screen.add(this.zoomIn);
-		screen.add(this.zoomOut);
 
 		//creation de panel west pour le marging
 		JPanel west = new JPanel();
@@ -69,7 +60,6 @@ public class Rendu extends JPanel {
 		this.rendu.setPreferredSize(new Dimension(600,600));
 		this.rendu.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
 		this.rendu.add(algoPanel,BorderLayout.NORTH);
-		this.rendu.add(screen,BorderLayout.SOUTH);
 		this.rendu.add(west,BorderLayout.WEST);
 
 		JScrollPane jsc1=new JScrollPane(this.rendu);

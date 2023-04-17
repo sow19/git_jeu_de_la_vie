@@ -30,10 +30,13 @@ public class GeneratorThread extends Thread {
                 game.nextGenerationClassic();
             }
             this.iteration++;
+            this.game.setIteration(this.iteration);
         }
 
         // System.out.println(" Stopped.");
     }
+
+
 
     public void stopThread() {
         running = false;

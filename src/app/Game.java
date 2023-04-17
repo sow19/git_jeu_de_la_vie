@@ -207,9 +207,10 @@ public class Game extends AbstractListenableModel {
 //	public int getNbLiveCell() {
 //		return this.nBLiveCell;
 //	}
-	public void setIteration() {
-		this.iteration= this.generatorThread.getIteration();
-		this.fireChangement(null);
+	public void setIteration(int iter) {
+		this.iteration=iter;
+//		System.out.println("-----------------"+this.iteration);
+		this.fireChangement(this);
 	}
 
 	public int getNbLiveCell() {
