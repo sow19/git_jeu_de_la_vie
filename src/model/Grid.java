@@ -143,6 +143,7 @@ public class Grid{
             }
         }
     }
+    
     public Cellule[][] getBoard(){
         return this.board;
     }
