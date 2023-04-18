@@ -1,8 +1,13 @@
+import static org.junit.Assert.assertEquals;
+
 import app.Game;
 import app.Generator;
+import model.Cellule;
 import model.Grid;
 import model.Position;
 import model.hashlife.Hashlife;
+import model.hashlife.QuadNode;
+import model.rule.RuleMulttF;
 
 public class Main {
 
@@ -25,5 +30,7 @@ public class Main {
 		System.out.print(grid);
         System.out.print(new_grid);
 	}
+	
+	
 
 }

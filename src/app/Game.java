@@ -13,7 +13,7 @@ public class Game extends AbstractListenableModel {
 	protected Grid previousGrid;
     protected Generator generator;
 	/** If true generate next gen using hashlife else use classic algo */
-	protected boolean useHashlife = true;
+	protected boolean useHashlife = false;
 
 	/** The thread which generate generation in loop. We're using another class cause
 	 * game already extends AbstractListenableModel and connot extends Thread again
@@ -24,15 +24,11 @@ public class Game extends AbstractListenableModel {
 	private int iteration,nBLiveCell;
 
 	/** Number of milliseconds between each generation */
-	protected int genWaitIntervalInMls = 100; 
-    
-    public boolean isUseHashlife() {
-		return useHashlife;
-	}
+	protected int genWaitIntervalInMls = 100;
 
-	public void setUseHashlife(boolean useHashlife) {
-		this.useHashlife = useHashlife;
-	}
+	/** Last generation computation time in milliseconds */
+	protected double lastGenComputeTimeInMls = 0;
+
 
 	/**
      * Build a new instance
@@ -62,6 +58,25 @@ public class Game extends AbstractListenableModel {
 	public void setGenerator(Generator generator) {
 		this.generator = generator;
 	}
+
+	public boolean isUseHashlife() {
+		return useHashlife;
+	}
+
+	public void setUseHashlife(boolean useHashlife) {
+		this.useHashlife = useHashlife;
+	}
+
+	public double getLastGenComputeTimeInMls() {
+		return lastGenComputeTimeInMls;
+	}
+
+	public void setLastGenComputeTimeInMls(double timeInMls) {
+		this.lastGenComputeTimeInMls = timeInMls;
+	}
+
+	
+
 	
 	// Methods
 	/**
@@ -110,14 +125,31 @@ public class Game extends AbstractListenableModel {
 
 	public void nextGenerationClassic() {
 		this.previousGrid  = this.grid;
+
+		double start = System.currentTimeMillis();
+		
 		this.grid = this.generator.nextGeneration(this.grid);
+
+		double end = System.currentTimeMillis();
+		setLastGenComputeTimeInMls(end - start);
+		System.out.println("Généré en " + getLastGenComputeTimeInMls() + " ms");
+		
 		this.fireChangement(null);
 		// System.out.println("nouveau");
 		// System.out.println(this.grid.toString());
 	}
 
 	public void nextGenerationHashlife() {
+		this.previousGrid = this.grid;
+
+		double start = System.currentTimeMillis();
+
 		this.grid = hashlife.jumpGenerations(grid,1);
+
+		double end = System.currentTimeMillis();
+		setLastGenComputeTimeInMls(end - start);
+		System.out.println("Généré en " + getLastGenComputeTimeInMls() + " ms");
+
 		this.fireChangement(null);
 		// System.out.println("nouveau");
 		// System.out.println(this.grid.toString());

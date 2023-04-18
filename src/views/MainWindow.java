@@ -136,9 +136,9 @@ public class MainWindow extends JFrame implements ListeningModel {
 					if(this.zoneRendu.play.isSelected()){
 						this.zoneRendu.play.setText("stop");
 						if(this.zoneRendu.classic.isSelected()){
-							this.game.setUseHashlife(false);
+							this.game.useClassicAlgo();
 						}else{
-							this.game.setUseHashlife(true);
+							this.game.useHashlifeAlgo();
 						}
 							this.game.runGenThread();
 					}else{
@@ -182,7 +182,12 @@ public class MainWindow extends JFrame implements ListeningModel {
 
 	public void eventConfig() {
 		this.zoneConfiguration.iterationZone.setText((String.valueOf(this.game.getIteration())));
-		this.zoneConfiguration.speedZone.setText((String.valueOf(12)));
+		this.zoneConfiguration.speedZone.setText((String.valueOf(this.game.getLastGenComputeTimeInMls())));
+//		this.zoneConfiguration.speedZone.revalidate();
+		this.zoneConfiguration.speedZone.setVisible(false);
+		this.zoneConfiguration.speedZone.setVisible(true);
+		this.zoneConfiguration.speedZone.repaint();
+		System.out.println(this.game.getLastGenComputeTimeInMls()+" ms");
 		this.zoneConfiguration.generationZone.setText((String.valueOf(10)));
 		this.zoneConfiguration.repaint();
 	}
