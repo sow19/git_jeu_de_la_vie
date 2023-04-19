@@ -27,7 +27,7 @@ public class Game extends AbstractListenableModel {
 	protected int genWaitIntervalInMls = 100;
 
 	/** Last generation computation time in milliseconds */
-	protected double lastGenComputeTimeInMls = 0;
+	protected double lastGenComputeTimeInNnos = 0;
 
 
 	/**
@@ -67,12 +67,12 @@ public class Game extends AbstractListenableModel {
 		this.useHashlife = useHashlife;
 	}
 
-	public double getLastGenComputeTimeInMls() {
-		return lastGenComputeTimeInMls;
+	public double getLastGenComputeTimeInNnos() {
+		return lastGenComputeTimeInNnos;
 	}
 
-	public void setLastGenComputeTimeInMls(double timeInMls) {
-		this.lastGenComputeTimeInMls = timeInMls;
+	public void setLastGenComputeTimeInNnos(double timeInNnos) {
+		this.lastGenComputeTimeInNnos = timeInNnos;
 	}
 
 	
@@ -126,13 +126,13 @@ public class Game extends AbstractListenableModel {
 	public void nextGenerationClassic() {
 		this.previousGrid  = this.grid;
 
-		double start = System.currentTimeMillis();
+		double start = System.nanoTime();
 		
 		this.grid = this.generator.nextGeneration(this.grid);
 
-		double end = System.currentTimeMillis();
-		setLastGenComputeTimeInMls(end - start);
-		System.out.println("Généré en " + getLastGenComputeTimeInMls() + " ms");
+		double end = System.nanoTime();
+		setLastGenComputeTimeInNnos(end - start);
+		System.out.println("Généré en " + getLastGenComputeTimeInNnos() + " ns");
 		
 		this.fireChangement(null);
 		// System.out.println("nouveau");
@@ -142,13 +142,13 @@ public class Game extends AbstractListenableModel {
 	public void nextGenerationHashlife() {
 		this.previousGrid = this.grid;
 
-		double start = System.currentTimeMillis();
+		double start = System.nanoTime();
 
 		this.grid = hashlife.jumpGenerations(grid,1);
 
-		double end = System.currentTimeMillis();
-		setLastGenComputeTimeInMls(end - start);
-		System.out.println("Généré en " + getLastGenComputeTimeInMls() + " ms");
+		double end = System.nanoTime();
+		setLastGenComputeTimeInNnos(end - start);
+		System.out.println("Généré en " + getLastGenComputeTimeInNnos() + " ns");
 
 		this.fireChangement(null);
 		// System.out.println("nouveau");
