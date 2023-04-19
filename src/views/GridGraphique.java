@@ -32,8 +32,6 @@ public class GridGraphique extends JComponent {
     private int rows=0;
     private int cols=0;
 
-    public float scale=1f;
-
     protected int cellWidth;
     protected int cellHeight;
 
@@ -45,21 +43,11 @@ public class GridGraphique extends JComponent {
         this.gridModel = grid;
         this.rows = this.gridModel.getGrid().getNbLine();
         this.cols = this.gridModel.getGrid().getNbColum();
-        
+
         this.eventClicked();
-        this.setBorder(BorderFactory.createLineBorder(Color.RED, 1));
-        this.setBackground(Color.BLACK);
         repaint();
     }
 
-
-    public void setScale(float scale) {
-        this.scale = scale;
-        repaint();
-    }
-    public float getScale() {
-        return scale;
-    }
     public int getCellWidth() {
         return cellWidth;
     }
@@ -91,22 +79,23 @@ public class GridGraphique extends JComponent {
          repaint();
      }
 
-    public void setGridModel(Grid grid) {
-        this.gridModel.setGrid(grid);
-//        this.rows = this.gridModel.getNbLine();
-//        this.cols = this.gridModel.getNbColum();
-
-        cellWidth = this.getWidth() / this.cols;
-        cellHeight = this.getHeight() / this.rows;
-
-        for (int i = 0; i < this.rows; i++) {
-            for (int j = 0; j < this.cols; j++) {
-                Rectangle cell = new Rectangle(j*cellWidth, i*cellHeight, cellWidth,
-                cellHeight);
-                paintImmediately(cell);
-            }
-        }
-    }
+//    public void setGridModel(Grid grid) {
+//        this.gridModel.setGrid(grid);
+////        this.rows = this.gridModel.getNbLine();
+////        this.cols = this.gridModel.getNbColum();
+//
+//        cellWidth = this.getWidth() / this.cols;
+//        cellHeight = this.getHeight() / this.rows;
+//        System.out.println("largeur " + cellWidth + " hauteur " + cellHeight);
+//
+//        for (int i = 0; i < this.rows; i++) {
+//            for (int j = 0; j < this.cols; j++) {
+//                Rectangle cell = new Rectangle(j*cellWidth, i*cellHeight, cellWidth,
+//                cellHeight);
+//                paintImmediately(cell);
+//            }
+//        }
+//    }
 
     public boolean getCellState(int row, int col) {
         return this.gridModel.getGrid().getCellState(row, col);
@@ -116,8 +105,6 @@ public class GridGraphique extends JComponent {
     public void paintComponent(Graphics g) {
     super.paintComponent(g);
     Graphics2D g2d = (Graphics2D) g;
-
-    g2d.scale(this.scale, this.scale);
 
          cellWidth = this.getWidth() / this.rows;
          cellHeight = this.getHeight() / this.cols;
@@ -133,19 +120,14 @@ public class GridGraphique extends JComponent {
                 g2d.drawRect(j*cellWidth, i*cellHeight, cellWidth,cellHeight);
             }
         }
-        g2d.dispose();
     }
-@Override
-    public Dimension getPreferredSize() {
-        return new Dimension((int)(this.cols*cellWidth*scale), (int)(this.rows*cellHeight*scale));
-    }
-
     /**
      * cette fonction permet de faire un clic sur la grille
      * @param row est le numero de la ligne de la cellule à cliquer
      * @param col est le numero de la colonne de la cellule à cliquer
      */
     public void clicked(int row, int col) {
+
         if(this.getCellState(row, col)) {
             this.gridModel.getGrid().initOneCellGrid(new Position(row, col), 0);
             this.setCell(row, col, 0);
@@ -159,17 +141,16 @@ public class GridGraphique extends JComponent {
      * cette fonction permert de gérer les evenements sur la grille
      */
     public void eventClicked() {
+
         this.addMouseListener(new MouseListener() {
             public void mouseClicked(MouseEvent e) {
                 int row = e.getY()/cellHeight;
                 int col = e.getX()/cellWidth;
-                try {
-                    clicked(row, col);
-                } catch (Exception e1) {
-                    System.out.println(e1.getMessage());
-                }
-//                clicked(row, col);
-//                System.out.println(row + " " + col);
+                    try {
+                        clicked(row, col);
+                    } catch (Exception e1) {
+                        System.out.println(e1.getMessage());
+                    }
             }
             public void mousePressed(MouseEvent e) {
             }
