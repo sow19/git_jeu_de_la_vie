@@ -40,6 +40,20 @@ public class Grid{
     	return board[0].length;
     }
 
+    
+
+    public int getPopulation() {
+        int population = 0;
+        for (int i = 0; i < this.board.length; i++){
+            for (int j = 0; j < board[i].length; j++) {
+                if(getCellule(i, j).getEtat() == 1)
+                    population++;
+            }
+        }
+
+        return population;
+    }
+   
     public Cellule getCellule(int i, int j) {
         return board[i][j];
     }
@@ -87,6 +101,7 @@ public class Grid{
      @throws Exception si le fichier texte ne peut pas être ouvert, si le nombre de lignes ou de colonnes de la matrice de configuration est trop grand pour la grille, ou si un caractère autre que '0' ou '1' est trouvé dans le fichier.
      */
     public  void initPattern(String fileName) {
+        reset();
         int[][] pattern = new int[this.nbLine][this.nbColum];
         int patternRow = 0;
         int patternCol = 0;

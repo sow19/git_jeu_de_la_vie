@@ -30,6 +30,7 @@ public class Game extends AbstractListenableModel {
 	protected double lastGenComputeTimeInNnos = 0;
 
 
+
 	/**
      * Build a new instance
      * @param grid
@@ -78,6 +79,14 @@ public class Game extends AbstractListenableModel {
 	
 
 	
+	public int getGenWaitIntervalInMls() {
+		return genWaitIntervalInMls;
+	}
+
+	public void setGenWaitIntervalInMls(int genWaitIntervalInMls) {
+		this.genWaitIntervalInMls = genWaitIntervalInMls;
+	}
+
 	// Methods
 	/**
 	 * The method playing the game
@@ -124,6 +133,7 @@ public class Game extends AbstractListenableModel {
 	}
 
 	public void nextGenerationClassic() {
+		// System.out.println("Using classic");
 		this.previousGrid  = this.grid;
 
 		double start = System.nanoTime();
@@ -132,7 +142,7 @@ public class Game extends AbstractListenableModel {
 
 		double end = System.nanoTime();
 		setLastGenComputeTimeInNnos(end - start);
-		System.out.println("Généré en " + getLastGenComputeTimeInNnos() + " ns");
+		// System.out.println("Généré en " + getLastGenComputeTimeInNnos() + " ns");
 		
 		this.fireChangement(null);
 		// System.out.println("nouveau");
@@ -140,6 +150,7 @@ public class Game extends AbstractListenableModel {
 	}
 
 	public void nextGenerationHashlife() {
+		// System.out.println("Using hashlife");
 		this.previousGrid = this.grid;
 
 		double start = System.nanoTime();
@@ -148,7 +159,7 @@ public class Game extends AbstractListenableModel {
 
 		double end = System.nanoTime();
 		setLastGenComputeTimeInNnos(end - start);
-		System.out.println("Généré en " + getLastGenComputeTimeInNnos() + " ns");
+		// System.out.println("Généré en " + getLastGenComputeTimeInNnos() + " ns");
 
 		this.fireChangement(null);
 		// System.out.println("nouveau");
@@ -183,7 +194,6 @@ public class Game extends AbstractListenableModel {
 	public void increaseSpeed() {
 		if(this.genWaitIntervalInMls > 100)
 			this.genWaitIntervalInMls -= 100;
-		this.fireChangement(null);
 	}
 
 	/**
@@ -192,7 +202,6 @@ public class Game extends AbstractListenableModel {
 	public void decreaseSpeed() {
 		if(this.genWaitIntervalInMls < 10000)
 			this.genWaitIntervalInMls += 100;
-		this.fireChangement(null);
 	}
 
 	/**
@@ -200,6 +209,7 @@ public class Game extends AbstractListenableModel {
 	 */
 	public void resetGrid() {
 		this.grid.reset();
+		this.iteration = 0;
 		this.fireChangement(null);
 	}
 
@@ -231,7 +241,6 @@ public class Game extends AbstractListenableModel {
 	 */
 	public void changeRule(Rule newRule) {
 		this.generator.setRule(newRule);
-		this.fireChangement(null);
 	}
 	public int getIteration() {
 		return this.iteration;
@@ -242,12 +251,10 @@ public class Game extends AbstractListenableModel {
 	public void setIteration(int iter) {
 		this.iteration=iter;
 //		System.out.println("-----------------"+this.iteration);
-		this.fireChangement(this);
 	}
 
 	public int getNbLiveCell() {
 		 this.nBLiveCell=this.grid.getAliveCell();
-		 this.fireChangement(null);
 		 return this.nBLiveCell;
 	}
 }

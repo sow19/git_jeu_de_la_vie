@@ -39,7 +39,7 @@ public class Rendu extends JPanel {
 		this.start= new JButton("reset");
 		//button radio
 		this.classic=new JRadioButton("Classic",true);
-		this.hashlif=new JRadioButton("Hashlif");
+		this.hashlif=new JRadioButton("Hashlife");
 		//create button group
 		ButtonGroup bGroup=new ButtonGroup();
 		bGroup.add(this.classic);

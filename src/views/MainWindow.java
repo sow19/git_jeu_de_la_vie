@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.Component;
 
 import javax.swing.JFrame;
@@ -173,27 +174,57 @@ public class MainWindow extends JFrame implements ListeningModel {
 				this.zoneRendu.start.addActionListener(event -> {
 					this.game.resetGrid();
 				});
+		// events pour le radio classic algo
+		this.zoneRendu.classic.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (zoneRendu.classic.isSelected()) {
+					game.useClassicAlgo();
+				}
+			}
+		});
+
+		// events pour le radio hashlife alog
+		this.zoneRendu.hashlif.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (zoneRendu.hashlif.isSelected()) {
+					game.useHashlifeAlgo();;
+				}
+			}
+		});
 	}
 
 	public void choicePattern(ActionEvent e) {
-		String pattern ="../patterns/"+ (String)this.menu.patterns.getSelectedItem();
+		String pattern ="patterns/"+ (String)this.menu.patterns.getSelectedItem();
+		System.out.println(pattern);
 			this.game.usePattern(pattern);
 	}
 
 	public void eventConfig() {
 		this.zoneConfiguration.iterationZone.setText((String.valueOf(this.game.getIteration())));
-		this.zoneConfiguration.speedZone.setText((String.valueOf(this.game.getLastGenComputeTimeInMls())));
+		this.zoneConfiguration.speedZone.setText((String.valueOf(this.game.getLastGenComputeTimeInNnos())));
 //		this.zoneConfiguration.speedZone.revalidate();
 		this.zoneConfiguration.speedZone.setVisible(false);
 		this.zoneConfiguration.speedZone.setVisible(true);
 		this.zoneConfiguration.speedZone.repaint();
-		System.out.println(this.game.getLastGenComputeTimeInMls()+" ms");
 		this.zoneConfiguration.generationZone.setText((String.valueOf(10)));
 		this.zoneConfiguration.repaint();
 	}
+
+	public void updateStats() {
+		// udpate speed
+		this.zoneConfiguration.speedZone.setText(game.getLastGenComputeTimeInNnos() + " ns");
+
+		// update iteration
+		this.zoneConfiguration.iterationZone.setText(game.getIteration() + "");
+
+		// update population
+		this.zoneConfiguration.generationZone.setText(game.getGrid().getPopulation() + "");
+	}
+
 	@Override
 	public void modeleMIsAJour(Object source, Object notification) {
 		this.grid.repaint();
+		this.updateStats();
 	}
 
 }

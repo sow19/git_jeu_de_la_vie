@@ -3,13 +3,9 @@ package app;
 public class GeneratorThread extends Thread {
     private volatile boolean running = true;
     private Game game;
-    private int iteration=0;
 
     public GeneratorThread(Game game) {
         this.game = game;
-    }
-    public int getIteration() {
-        return iteration;
     }
 
     public void run() {
@@ -18,7 +14,7 @@ public class GeneratorThread extends Thread {
         while (running && !game.getGrid().isAllDead()) {
            // it's absolutely necessary to wait at least 100 milliseconds, otherwise th
             try {
-                Thread.sleep(100);
+                Thread.sleep(game.getGenWaitIntervalInMls());
             } catch (InterruptedException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -31,8 +27,7 @@ public class GeneratorThread extends Thread {
                 game.nextGenerationClassic();
                 // System.out.println("using classic");
             }
-            this.iteration++;
-            this.game.setIteration(this.iteration);
+            game.setIteration(game.getIteration() + 1);
         }
 
         // System.out.println(" Stopped.");
