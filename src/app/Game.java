@@ -1,5 +1,6 @@
 package app;
 
+import constants.NeighborsType;
 import model.Grid;
 import model.hashlife.Hashlife;
 import model.rule.Rule;
@@ -28,8 +29,6 @@ public class Game extends AbstractListenableModel {
 
 	/** Last generation computation time in milliseconds */
 	protected double lastGenComputeTimeInNnos = 0;
-
-
 
 	/**
      * Build a new instance
@@ -95,33 +94,11 @@ public class Game extends AbstractListenableModel {
 	public void runGenThread() {
 		this.generatorThread = new GeneratorThread(this);
 		this.generatorThread.start();
-
-		// // We generate next generations until all cells of the grid are dead
-        // while (!this.getGrid().isAllDead()) {
-        //     // System.out.println("Le thread est en cours d'exécution.");
-            
-        //     if(this.isUseHashlife()) {
-        //         this.nextGenerationHashlife();
-        //     } else {
-        //         this.nextGenerationClassic();
-        //     }
-        // }
 	}
 
 	public void stopGenThread() {
 		this.generatorThread.stopThread();
 	}
-
-	// public void play() {
-	// 	// System.out.println("ancien");
-	// 	// System.out.println(this.grid.toString());
-
-	// 	if(useHashlife) {
-	// 		this.nextGenerationHashlife();
-	// 	} else {
-	// 		this.nextGenerationClassic();
-	// 	}
-	// }
 
 	/** @todo: implements this function */
 	public void playConsole() {
@@ -256,5 +233,26 @@ public class Game extends AbstractListenableModel {
 	public int getNbLiveCell() {
 		 this.nBLiveCell=this.grid.getAliveCell();
 		 return this.nBLiveCell;
+	}
+
+	public void changeNeighborsType(String type) {
+		int[][] nType = NeighborsType.getType(type);
+		generator.setNeighbors(nType);
+		// System.out.println("Neighbors type changed");
+	}
+
+	public boolean changeNeighborsTypeCustom(String type) {
+		boolean res = true;
+		
+		// Vérifier si la chaîne de caractères est au bon format
+		String regex = "\\((\\d+),(\\d+)\\)(;\\((\\d+),(\\d+)\\))*";
+		if (!type.matches(regex)) {
+			res = false;
+		}
+		
+		generator.setNeighbors(NeighborsType.stringToCoord(type));
+
+		// System.out.println("Neighbors type changed custom");
+		return res;
 	}
 }

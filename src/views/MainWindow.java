@@ -14,6 +14,7 @@ import app.Game;
 import app.Generator;
 import model.rule.Rule;
 import util.ListeningModel;
+import constants.NeighborsType;
 import constants.Rules;
 
 public class MainWindow extends JFrame implements ListeningModel {
@@ -95,23 +96,19 @@ public class MainWindow extends JFrame implements ListeningModel {
 		this.zoneConfiguration.panelRule.setVisible(true);
 	}
 	public void choiceNeighborsType(ActionEvent e) {
-		if(this.zoneConfiguration.listVoisins.getSelectedIndex()==0){
+		String selectedType = (String) this.zoneConfiguration.listVoisins.getSelectedItem();
+		if(selectedType.toUpperCase() != "AUTRE") {
 			this.zoneConfiguration.panelVoisins.remove(this.zoneConfiguration.txt2);
 			this.zoneConfiguration.panelVoisins.setVisible(false);
 			this.zoneConfiguration.panelVoisins.setVisible(true);
 
-		}
-		if(this.zoneConfiguration.listVoisins.getSelectedIndex()==1){
-			this.zoneConfiguration.panelVoisins.remove(this.zoneConfiguration.txt2);
-			this.zoneConfiguration.panelVoisins.setVisible(false);
-			this.zoneConfiguration.panelVoisins.setVisible(true);
-		}
-		if(this.zoneConfiguration.listVoisins.getSelectedIndex()==2){
-			this.zoneConfiguration.panelVoisins.remove(this.zoneConfiguration.txt2);
-			this.zoneConfiguration.panelVoisins.setVisible(false);
-			this.zoneConfiguration.panelVoisins.setVisible(true);
-		}
-		if(this.zoneConfiguration.listVoisins.getSelectedIndex()==3){
+			// show type to user
+			this.zoneConfiguration.voisinsZone.setText(NeighborsType.coordRepresentation(selectedType));
+
+			// use type in model
+			game.changeNeighborsType(selectedType);
+
+		} else {
 			this.zoneConfiguration.txt2.setPreferredSize(new Dimension(200,30));
 			this.zoneConfiguration.panelVoisins.setVisible(false);
 			this.zoneConfiguration.voisinsZone.setText("");
@@ -120,14 +117,26 @@ public class MainWindow extends JFrame implements ListeningModel {
 				this.zoneConfiguration.panelVoisins.remove(this.zoneConfiguration.txt2);
 				this.zoneConfiguration.panelVoisins.setVisible(false);
 				this.zoneConfiguration.panelVoisins.setVisible(true);
+
+				String ctype = this.zoneConfiguration.txt2.getText();
+
+				// if not valid, gol is used by default
+				if(!game.changeNeighborsTypeCustom(ctype)) {
+					this.zoneConfiguration.listVoisins.setSelectedItem("GAMEOFLIFE");
+					this.zoneConfiguration.voisinsZone.setText(NeighborsType.coordRepresentation("GAMEOFLIFE"));
+				}
 			});
 
 			this.zoneConfiguration.panelVoisins.add(this.zoneConfiguration.txt2);
+
+			
 		}
+		
 		this.zoneConfiguration.panelVoisins.revalidate();
 		this.zoneConfiguration.panelVoisins.repaint();
 		this.zoneConfiguration.panelVoisins.setVisible(false);
 		this.zoneConfiguration.panelVoisins.setVisible(true);
+		
 	}
 
 	public void eventNavigation() {

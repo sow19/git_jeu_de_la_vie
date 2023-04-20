@@ -15,6 +15,7 @@ import javax.swing.JToolBar;
 import javax.swing.JButton;
 
 import app.Game;
+import constants.NeighborsType;
 
 public class Config extends JPanel{
     private static final long serialVersionUID = 1L;
@@ -42,7 +43,7 @@ public class Config extends JPanel{
         this.speedZone.setPreferredSize(new Dimension(100,30));
         this.speedZone.setBorder(BorderFactory.createLoweredBevelBorder());
         this.txt=new JTextField("B3/S23");
-        this.txt2=new JTextField("(1,1),(0,0),(1,0),(0,1)");
+        this.txt2=new JTextField("(1,1);(0,0);(1,0);(0,1)");
         //zone des labels de configuration
         JLabel vitesse=new JLabel("vitésse d'execution:");
         vitesse.setPreferredSize(new Dimension(130,20));
@@ -64,7 +65,7 @@ public class Config extends JPanel{
         JLabel voisinsLabel=new JLabel("Types de voisins:");
         JToolBar voisins=new JToolBar();
         voisinsLabel.setPreferredSize(new Dimension(110,20));
-        String[] voisinsType= {"gameoflife","type1","type2","autre"};
+        String[] voisinsType= {"GAMEOFLIFE","TYPE2","TYPE3","AUTRE"};
         this.listVoisins=new JComboBox<>(voisinsType);
         this.listVoisins.setPreferredSize(new Dimension(100,30));
         voisins.add(voisinsLabel);
