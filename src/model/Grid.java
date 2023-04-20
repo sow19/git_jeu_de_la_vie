@@ -9,7 +9,9 @@ import java.util.Scanner;
  * la classe correspondant à la grille de jeu.
  * @param board est un tableau de cellule de deux dimensions
  * @param nbLine correspond au nombre de lignes du tableau board.
- * @param nbColum correspond au nombre de colonnes du tableau board. 
+ * @param nbColum correspond au nombre de colonnes du tableau board.
+ * @author Mamadou Alpha Diallo
+ * @version 1.0
  */
 public class Grid{
     private Cellule [][] board;

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import app.Game;
 import model.rule.Rule;
 import util.ListeningModel;
+import util.Aide;
 import constants.NeighborsType;
 
 /**
@@ -199,6 +200,8 @@ public class MainWindow extends JFrame implements ListeningModel {
 		this.zoneConfiguration.initRandom.addActionListener(event -> {
 			this.game.useRandom();
 		});
+		//events pour le bouton aide
+		this.menu.help.addActionListener((event) -> new Aide());
 	}
 
 	/**
@@ -206,8 +209,7 @@ public class MainWindow extends JFrame implements ListeningModel {
 	 * @param e
 	 */
 	public void choicePattern(ActionEvent e) {
-		String pattern ="../patterns/"+ (String)this.menu.patterns.getSelectedItem();
-		System.out.println(pattern);
+		String pattern ="patterns/"+ (String)this.menu.patterns.getSelectedItem();
 			this.game.usePattern(pattern);
 	}
 

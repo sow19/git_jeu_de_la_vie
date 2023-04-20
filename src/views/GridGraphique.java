@@ -15,12 +15,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import app.Game;
+
 import model.Position;
 
 /**
  * cette classe permet de créer une grille graphique pour la simulation
  * @author Mamadou Alpha Diallo
- *
+ * @version 1.0
  */
 public class GridGraphique extends JComponent {
     public static final long serialVersionUID = 1L;
