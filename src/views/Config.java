@@ -17,13 +17,20 @@ import javax.swing.JButton;
 import app.Game;
 import constants.NeighborsType;
 
+/**
+ * cette classe permet de contenir les configuration du jeu
+ * @author Mamadou Alpha Diallo
+ * @version 1.0
+ */
+
 public class Config extends JPanel{
     private static final long serialVersionUID = 1L;
-    public JPanel config,panelRule,panelVoisins;
+    protected JPanel config,panelRule,panelVoisins;
     protected JComboBox<String> listRules,listVoisins;
     protected JLabel iterationZone,generationZone,rulesZone,voisinsZone,speedZone;
-//    public  JPanel panelRule;
-    public JTextField txt,txt2;
+    protected JTextField txt,txt2;
+    protected JButton initRandom;
+
     public Config() {
     //init attributs
         this.config=new JPanel();
@@ -44,6 +51,8 @@ public class Config extends JPanel{
         this.speedZone.setBorder(BorderFactory.createLoweredBevelBorder());
         this.txt=new JTextField("B3/S23");
         this.txt2=new JTextField("(1,1);(0,0);(1,0);(0,1)");
+        this.initRandom=new JButton("init random");
+
         //zone des labels de configuration
         JLabel vitesse=new JLabel("vitésse d'execution:");
         vitesse.setPreferredSize(new Dimension(130,20));
@@ -51,6 +60,7 @@ public class Config extends JPanel{
         iterationlabel.setPreferredSize(new Dimension(90,20));
         JLabel populationLabel=new JLabel("population:");
         populationLabel.setPreferredSize(new Dimension(90,20));
+
         //creation des regles
         JLabel rulLabel=new JLabel("rules:");
         rulLabel.setPreferredSize(new Dimension(110,20));
@@ -71,38 +81,49 @@ public class Config extends JPanel{
         voisins.add(voisinsLabel);
         voisins.add(this.listVoisins);
 
-        //Action events
+        //vitesse panel
         JPanel panelVitesse=new JPanel();
         panelVitesse.add(vitesse);
         panelVitesse.add(speedZone);
+
         //iteration panel
         JPanel panelIteration=new JPanel();
         panelIteration.add(iterationlabel);
         panelIteration.add(iterationZone);
+
         //population panel
         JPanel panelPopulation =new JPanel();
         panelPopulation.add(populationLabel);
         panelPopulation.add(generationZone);
+
         //rule panel
         panelRule= new JPanel();
         panelRule.setLayout(new FlowLayout());
         panelRule.setPreferredSize(new Dimension(400,70));
         panelRule.add(rules);
         panelRule.add(this.rulesZone);
+
         //voisins panel
         panelVoisins=new JPanel();
         panelVoisins.setLayout(new FlowLayout());
         panelVoisins.setPreferredSize(new Dimension(400,70));
         panelVoisins.add(voisins);
         panelVoisins.add(this.voisinsZone);
+
+        //button init random
+        JPanel randomPanel=new JPanel();
+        randomPanel.setPreferredSize(new Dimension(400,50));
+        randomPanel.add(initRandom);
+
         //panel principal
-        this.config.setPreferredSize(new Dimension(490,280));
+        this.config.setPreferredSize(new Dimension(490,300));
         this.config.setBorder(BorderFactory.createLineBorder(Color.BLACK,1));
         this.config.add(panelIteration);
         this.config.add(panelPopulation);
         this.config.add(panelRule);
         this.config.add(panelVoisins);
         this.config.add(panelVitesse);
+        this.config.add(randomPanel);
 
         JScrollPane jscp=new JScrollPane(this.config);
         this.add(jscp);

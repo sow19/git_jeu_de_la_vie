@@ -1,9 +1,10 @@
 package views;
 
+
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
+import java.awt.Toolkit;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,10 +16,9 @@ import java.awt.event.MouseListener;
 
 import app.Game;
 import model.Position;
-import model.Grid;
 
 /**
- * cette classe permet de créer une grille graphique avec un jeu de la vie
+ * cette classe permet de créer une grille graphique pour la simulation
  * @author Mamadou Alpha Diallo
  *
  */
@@ -35,10 +35,6 @@ public class GridGraphique extends JComponent {
     protected int cellWidth;
     protected int cellHeight;
 
-    public Game getGridModel() {
-        return gridModel;
-    }
-
     public GridGraphique(Game grid) {
         this.gridModel = grid;
         this.rows = this.gridModel.getGrid().getNbLine();
@@ -48,6 +44,9 @@ public class GridGraphique extends JComponent {
         repaint();
     }
 
+    public Game getGridModel() {
+        return gridModel;
+    }
     public int getCellWidth() {
         return cellWidth;
     }
@@ -79,23 +78,6 @@ public class GridGraphique extends JComponent {
          repaint();
      }
 
-//    public void setGridModel(Grid grid) {
-//        this.gridModel.setGrid(grid);
-////        this.rows = this.gridModel.getNbLine();
-////        this.cols = this.gridModel.getNbColum();
-//
-//        cellWidth = this.getWidth() / this.cols;
-//        cellHeight = this.getHeight() / this.rows;
-//        System.out.println("largeur " + cellWidth + " hauteur " + cellHeight);
-//
-//        for (int i = 0; i < this.rows; i++) {
-//            for (int j = 0; j < this.cols; j++) {
-//                Rectangle cell = new Rectangle(j*cellWidth, i*cellHeight, cellWidth,
-//                cellHeight);
-//                paintImmediately(cell);
-//            }
-//        }
-//    }
 
     public boolean getCellState(int row, int col) {
         return this.gridModel.getGrid().getCellState(row, col);
@@ -111,11 +93,15 @@ public class GridGraphique extends JComponent {
         for (int i=0 ; i < this.rows; i++) {
             for (int j=0; j < this.cols; j++) {
                 if (this.getCellState(i, j)) {
+                    if(i%2==0||j%2==0){
+                        g2d.setColor(Color.RED);
+                    }else {
                     g2d.setColor(Color.WHITE);
+                    }
                 } else {
                     g2d.setColor(Color.BLACK);
                 }
-                g2d.fillRect(j*cellWidth,i*cellHeight, cellWidth, cellHeight);
+                g2d.fillRect(j*cellWidth,i*cellHeight, cellWidth,cellHeight);
                 g2d.setColor(Color.GRAY);
                 g2d.drawRect(j*cellWidth, i*cellHeight, cellWidth,cellHeight);
             }
@@ -150,6 +136,7 @@ public class GridGraphique extends JComponent {
                         clicked(row, col);
                     } catch (Exception e1) {
                         System.out.println(e1.getMessage());
+                        Toolkit.getDefaultToolkit().beep();
                     }
             }
             public void mousePressed(MouseEvent e) {

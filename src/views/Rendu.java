@@ -15,8 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 
-import model.Grid;
-
+/**
+ * cette classe permet de contenir la grille graphique et les boutons de navigation
+ * @author Mamadou Alpha Diallo
+ * @version 1.0
+ */
 public class Rendu extends JPanel {
 
 	private static final long serialVersionUID = 1L;

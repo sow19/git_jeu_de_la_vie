@@ -5,17 +5,21 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Component;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import app.Game;
-import app.Generator;
 import model.rule.Rule;
 import util.ListeningModel;
 import constants.NeighborsType;
-import constants.Rules;
+
+/**
+ * C'est la classe qui represente la fenetre principale du jeu
+ * elle prent en parametre le model
+ * @author Mamadou Alpha Diallo
+ * @version 1.0
+ */
 
 public class MainWindow extends JFrame implements ListeningModel {
 	private static final long serialVersionUID = 7376825297884956163L;
@@ -29,8 +33,6 @@ public class MainWindow extends JFrame implements ListeningModel {
 	private  GridGraphique grid;
 
 	private Game game;
-	private Rule rule;
-
 
 	public  MainWindow(Game game){
 		super("jeux de la vie");
@@ -48,7 +50,6 @@ public class MainWindow extends JFrame implements ListeningModel {
 		this.eventNavigation();
 		this.zoneConfiguration.listRules.addActionListener(this::choiceRule);
 		this.zoneConfiguration.listVoisins.addActionListener(this::choiceNeighborsType);
-		this.eventConfig();
 		this.menu.patterns.addActionListener(this::choicePattern);
 
 		this.setSize(screenWith,screenheight);
@@ -70,6 +71,9 @@ public class MainWindow extends JFrame implements ListeningModel {
 		return page;
 	}
 
+	/**
+	 * cette fonction permet de choisir la régle de jeu
+	 */
 	public void choiceRule(ActionEvent e) {
 		if(this.zoneConfiguration.listRules.getSelectedIndex()==1){
 			this.zoneConfiguration.txt.setPreferredSize(new Dimension(100,30));
@@ -95,6 +99,10 @@ public class MainWindow extends JFrame implements ListeningModel {
 		this.zoneConfiguration.panelRule.setVisible(false);
 		this.zoneConfiguration.panelRule.setVisible(true);
 	}
+
+	/**
+	 * cette fonction permet de choisir le type de voisin
+	 */
 	public void choiceNeighborsType(ActionEvent e) {
 		String selectedType = (String) this.zoneConfiguration.listVoisins.getSelectedItem();
 		if(selectedType.toUpperCase() != "AUTRE") {
@@ -139,6 +147,9 @@ public class MainWindow extends JFrame implements ListeningModel {
 		
 	}
 
+	/**
+	 * cette fonction permet gerer les evenements sur les boutons
+	 */
 	public void eventNavigation() {
 
 		//events pour le bouton play
@@ -182,43 +193,27 @@ public class MainWindow extends JFrame implements ListeningModel {
 		//events pour le bouton debuter
 				this.zoneRendu.start.addActionListener(event -> {
 					this.game.resetGrid();
+					this.zoneRendu.play.setSelected(false);
 				});
-		// events pour le radio classic algo
-		this.zoneRendu.classic.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (zoneRendu.classic.isSelected()) {
-					game.useClassicAlgo();
-				}
-			}
-		});
-
-		// events pour le radio hashlife alog
-		this.zoneRendu.hashlif.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (zoneRendu.hashlif.isSelected()) {
-					game.useHashlifeAlgo();;
-				}
-			}
+		//events pour le bouton random
+		this.zoneConfiguration.initRandom.addActionListener(event -> {
+			this.game.useRandom();
 		});
 	}
 
+	/**
+	 * cette fonction permet de choisir le pattern
+	 * @param e
+	 */
 	public void choicePattern(ActionEvent e) {
-		String pattern ="patterns/"+ (String)this.menu.patterns.getSelectedItem();
+		String pattern ="../patterns/"+ (String)this.menu.patterns.getSelectedItem();
 		System.out.println(pattern);
 			this.game.usePattern(pattern);
 	}
 
-	public void eventConfig() {
-		this.zoneConfiguration.iterationZone.setText((String.valueOf(this.game.getIteration())));
-		this.zoneConfiguration.speedZone.setText((String.valueOf(this.game.getLastGenComputeTimeInNnos())));
-//		this.zoneConfiguration.speedZone.revalidate();
-		this.zoneConfiguration.speedZone.setVisible(false);
-		this.zoneConfiguration.speedZone.setVisible(true);
-		this.zoneConfiguration.speedZone.repaint();
-		this.zoneConfiguration.generationZone.setText((String.valueOf(10)));
-		this.zoneConfiguration.repaint();
-	}
-
+	/**
+	 * cette fonction permet de mettre a jour les etats des labels
+	 */
 	public void updateStats() {
 		// udpate speed
 		this.zoneConfiguration.speedZone.setText(game.getLastGenComputeTimeInNnos() + " ns");

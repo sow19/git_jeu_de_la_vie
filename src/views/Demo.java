@@ -17,20 +17,10 @@ public class Demo {
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
 		// TODO Auto-generated method stub
 		UIManager.setLookAndFeel(new NimbusLookAndFeel());
-		Grid grid = new Grid(24, 24);
-
-		// grid.initRandomGrid();
-		grid.initPattern("patterns/Burst.txt");
-		// Position[] tab = new Position[3];
-		// tab[0] = new Position(0,1);
-		// tab[1] = new Position(0,2);
-		// tab[2] = new Position(1,1);
-		// grid.initGridUser(tab);
-
+		Grid grid = new Grid(200, 200);
 		Generator generator = new Generator();
 		Game game = new Game(grid, generator);
 		new MainWindow(game);
-//		new MainWindow();
 	}
 
 }

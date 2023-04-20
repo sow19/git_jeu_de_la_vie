@@ -204,6 +204,13 @@ public class Game extends AbstractListenableModel {
 		this.useHashlife = true;
 	}
 
+	/**
+	 * Boutton init random
+	 */
+	public void useRandom() {
+		this.getGrid().initRandomGrid();
+		this.fireChangement(null);
+	}
 
 	/**
 	 * Select a pattern
@@ -222,12 +229,9 @@ public class Game extends AbstractListenableModel {
 	public int getIteration() {
 		return this.iteration;
 	}
-//	public int getNbLiveCell() {
-//		return this.nBLiveCell;
-//	}
+
 	public void setIteration(int iter) {
 		this.iteration=iter;
-//		System.out.println("-----------------"+this.iteration);
 	}
 
 	public int getNbLiveCell() {
@@ -238,7 +242,6 @@ public class Game extends AbstractListenableModel {
 	public void changeNeighborsType(String type) {
 		int[][] nType = NeighborsType.getType(type);
 		generator.setNeighbors(nType);
-		// System.out.println("Neighbors type changed");
 	}
 
 	public boolean changeNeighborsTypeCustom(String type) {
