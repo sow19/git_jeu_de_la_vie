@@ -94,11 +94,7 @@ public class GridGraphique extends JComponent {
         for (int i=0 ; i < this.rows; i++) {
             for (int j=0; j < this.cols; j++) {
                 if (this.getCellState(i, j)) {
-                    if(i%2==0||j%2==0){
-                        g2d.setColor(Color.RED);
-                    }else {
                     g2d.setColor(Color.WHITE);
-                    }
                 } else {
                     g2d.setColor(Color.BLACK);
                 }

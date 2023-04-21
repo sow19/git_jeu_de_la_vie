@@ -1,6 +1,7 @@
 package app;
 
 import constants.NeighborsType;
+import constants.Rules;
 import model.Grid;
 import model.hashlife.Hashlife;
 import model.rule.Rule;
@@ -220,12 +221,7 @@ public class Game extends AbstractListenableModel {
 		this.fireChangement(null);
 	}
 
-	/**
-	 * Changer de règle
-	 */
-	public void changeRule(Rule newRule) {
-		this.generator.setRule(newRule);
-	}
+	
 	public int getIteration() {
 		return this.iteration;
 	}
@@ -248,7 +244,7 @@ public class Game extends AbstractListenableModel {
 		boolean res = true;
 		
 		// Vérifier si la chaîne de caractères est au bon format
-		String regex = "\\((\\d+),(\\d+)\\)(;\\((\\d+),(\\d+)\\))*";
+		String regex = "\\((-?\\d+),(-?\\d+)\\)(;\\((-?\\d+),(-?\\d+)\\))*";
 		if (!type.matches(regex)) {
 			res = false;
 		}
@@ -257,5 +253,19 @@ public class Game extends AbstractListenableModel {
 
 		// System.out.println("Neighbors type changed custom");
 		return res;
+	}
+
+	public boolean useCustomRule(String rulestr) {
+		try {
+			Rule cRule = new Rule(rulestr);
+			this.generator.setRule(cRule);
+			return true;
+		} catch (IllegalArgumentException e) { // thrown when rule does not match required format
+			return false;
+		}
+	}
+
+	public void useGolRule() {
+		this.generator.setRule(new Rule(constants.Rules.GAMEOFLIFE));
 	}
 }

@@ -55,7 +55,6 @@ public class Rule {
     public RuleFormat readAux(String rulestr){
         RuleFormat rule = null;
         rulestr = rulestr.substring(1);
-       
         if(rulestr.matches("^[0-9]-[0-9]$")){
             rule = new RuleRangeF(rulestr);
         }else if(rulestr.matches("^[0-9]+$")){
@@ -77,6 +76,9 @@ public class Rule {
 
     public void read(String userRule){
         String[] parties = userRule.split("/");
+        if(parties.length != 2) {
+            throw new IllegalArgumentException("La règle est erronée");
+        }
         String born = parties[0];
         String survive = parties[1];
         this.bornRule = readAux(born);

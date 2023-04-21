@@ -55,7 +55,7 @@ public final class NeighborsType {
 		}
 	
 		// Vérifier si la chaîne de caractères est au bon format
-		String regex = "\\((\\d+),(\\d+)\\)(;\\((\\d+),(\\d+)\\))*";
+		String regex = "\\((-?\\d+),(-?\\d+)\\)(;\\((-?\\d+),(-?\\d+)\\))*";
 		if (!chaineCoordonnees.matches(regex)) {
 			return GAMEOFLIFE;
 		}
