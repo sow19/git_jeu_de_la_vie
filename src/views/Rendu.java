@@ -36,8 +36,8 @@ public class Rendu extends JPanel {
 		this.play=new JToggleButton("play");
 		this.next= new JButton("next");
 		this.back= new JButton("back");
-		this.rapide= new JButton("rapide");
-		this.recule= new JButton("reculer");
+		this.rapide= new JButton("fast");
+		this.recule= new JButton("slow");
 		this.start= new JButton("reset");
 		//button radio
 		this.classic=new JRadioButton("Classic",true);

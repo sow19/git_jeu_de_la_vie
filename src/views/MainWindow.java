@@ -8,6 +8,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import app.Game;
 import model.rule.Rule;
@@ -36,8 +39,9 @@ public class MainWindow extends JFrame implements ListeningModel {
 
 	private Game game;
 
-	public  MainWindow(Game game){
-		super("jeux de la vie");
+	public  MainWindow(Game game)  throws UnsupportedLookAndFeelException{
+		super("Game of Life");
+		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		JPanel contentPane= (JPanel)this.getContentPane();
 
 		this.menu = new Menu();

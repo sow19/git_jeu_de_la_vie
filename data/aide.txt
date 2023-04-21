@@ -11,8 +11,8 @@ une version plus rapide de l'algorithme.
 1.Comment utiliser les boutons de contrôle ?
 Les boutons de contrôle permettent de démarrer/arrêter (play/stop)
 la simulation, avancer/reculer (next/back) d'une génération,
-accélérer/ralentir (rapide/reculer) la simulation et restaurer (reset) la grille.
-Le bouton "Aide" redirige vers cette page d'aide pour 
+accélérer/ralentir (fast/slow) la simulation et restaurer (reset) la grille.
+Le bouton "Help" redirige vers cette page d'aide pour 
 une utilisation optimale de l'application.
 
 2.Comment utiliser la liste de patterns disponibles ?

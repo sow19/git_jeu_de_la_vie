@@ -1,34 +1,25 @@
-//import static org.junit.Assert.assertEquals;
 
-import app.Game;
-import app.Generator;
-import model.Cellule;
+import javax.swing.UnsupportedLookAndFeelException;
+import views.MainWindow;
 import model.Grid;
-import model.Position;
-import model.hashlife.Hashlife;
-import model.hashlife.QuadNode;
-import model.rule.RuleMulttF;
+import app.Generator;
+import app.Game;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Grid grid = new Grid(12, 12);
-		grid.initRandomGrid();
-		//grid.initPattern("patterns/pattern.txt");
-		/*Position[] tab = new Position[3];
-		tab[0] = new Position(0,1);
-		tab[1] = new Position(0,2);
-		tab[2] = new Position(1,1);
-		grid.initGridUser(tab);*/
+		// Creating the game object
+		Grid grid = new Grid(24, 24);
 		Generator generator = new Generator();
-//		Game game = new Game(grid, generator);
-		
-		// game.play();
-//		game.playHashlife();
-        Hashlife hashlife = new Hashlife(generator);
-        Grid new_grid = hashlife.jumpGenerations(grid,3);
-		System.out.print(grid);
-        System.out.print(new_grid);
+		Game game = new Game(grid, generator);
+
+		// Launching GUI
+		try {
+			new MainWindow(game);
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
