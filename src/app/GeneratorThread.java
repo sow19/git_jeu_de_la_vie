@@ -1,5 +1,8 @@
 package app;
 
+/**
+ * The thread resposable of the simulation
+ */
 public class GeneratorThread extends Thread {
     private volatile boolean running = true;
     private Game game;
@@ -9,10 +12,9 @@ public class GeneratorThread extends Thread {
     }
 
     public void run() {
-    	 // System.out.println("Le thread est en cours d'exécution.");
         // We generate next generations until all cells of the grid are dead
         while (running && !game.getGrid().isAllDead()) {
-           // it's absolutely necessary to wait at least 100 milliseconds, otherwise th
+           // it's absolutely necessary to wait at least 100 milliseconds, otherwise we can have a crash
             try {
                 Thread.sleep(game.getGenWaitIntervalInMls());
             } catch (InterruptedException e) {
@@ -20,24 +22,21 @@ public class GeneratorThread extends Thread {
                 e.printStackTrace();
             }
             
+            // Generate next gen based on the algo
             if(game.isUseHashlife()) {
                 game.nextGenerationHashlife();
-                // System.out.println("using hashfile");
             } else {
                 game.nextGenerationClassic();
-                // System.out.println("using classic");
             }
             game.setIteration(game.getIteration() + 1);
         }
-
-        // System.out.println(" Stopped.");
     }
 
 
-
+    /**
+     * Stop the thread
+     */
     public void stopThread() {
         running = false;
     }
-
-    // ...
 }

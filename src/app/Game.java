@@ -87,87 +87,89 @@ public class Game extends AbstractListenableModel {
 		this.genWaitIntervalInMls = genWaitIntervalInMls;
 	}
 
-	// Methods
-	/**
-	 * The method playing the game
-	 */
 
+	public int getIteration() {
+		return this.iteration;
+	}
+
+	public void setIteration(int iter) {
+		this.iteration=iter;
+	}
+
+	public int getNbLiveCell() {
+		 this.nBLiveCell=this.grid.getAliveCell();
+		 return this.nBLiveCell;
+	}
+
+
+	// Methods
+
+	/**
+	 * Start the simulator thread
+	 */
 	public void runGenThread() {
 		this.generatorThread = new GeneratorThread(this);
 		this.generatorThread.start();
 	}
 
+	/**
+	 * Stop the simulator thread
+	 */
 	public void stopGenThread() {
 		this.generatorThread.stopThread();
 	}
 
 	/** @todo: implements this function */
 	public void playConsole() {
-// 		Grid grid = new Grid(12, 12);
-// 		grid.initRandomGrid();
-// 		//grid.initPattern("patterns/pattern.txt");
-// 		/*Position[] tab = new Position[3];
-// 		tab[0] = new Position(0,1);
-// 		tab[1] = new Position(0,2);
-// 		tab[2] = new Position(1,1);
-// 		grid.initGridUser(tab);*/
-// 		Generator generator = new Generator();
-// //		Game game = new Game(grid, generator);
-		
-// 		// game.play();
-// //		game.playHashlife();
-//         Hashlife hashlife = new Hashlife(generator);
-//         Grid new_grid = hashlife.jumpGenerations(grid,3);
-// 		System.out.print(grid);
-//         System.out.print(new_grid);
 	}
 
+	/**
+	 * Backup the current grid to use it after for the prev function
+	 */
 	public void backupCurrentGrid() {
 		this.previousGrid = this.grid;
 	}
 
+	/**
+	 * Generate the next generation of grid using classic gol algo
+	 */
 	public void nextGenerationClassic() {
-		// System.out.println("Using classic");
-		this.previousGrid  = this.grid;
+		backupCurrentGrid();
 
 		double start = System.nanoTime();
 		
 		this.grid = this.generator.nextGeneration(this.grid);
 
 		double end = System.nanoTime();
-		setLastGenComputeTimeInNnos(end - start);
-		// System.out.println("Généré en " + getLastGenComputeTimeInNnos() + " ns");
+		setLastGenComputeTimeInNnos(end - start); // calculate gen computation time
 		
-		this.fireChangement(null);
-		// System.out.println("nouveau");
-		// System.out.println(this.grid.toString());
+		this.fireChangement(null); // notify view for changement
+
 	}
 
+	/**
+	 * Generate next generation usign hashlife algo
+	 */
 	public void nextGenerationHashlife() {
-		// System.out.println("Using hashlife");
-		this.previousGrid = this.grid;
+		backupCurrentGrid();
 
 		double start = System.nanoTime();
 
 		this.grid = hashlife.jumpGenerations(grid,1);
 
 		double end = System.nanoTime();
-		setLastGenComputeTimeInNnos(end - start);
-		// System.out.println("Généré en " + getLastGenComputeTimeInNnos() + " ns");
+		setLastGenComputeTimeInNnos(end - start); // calculate gen computation time
 
-		this.fireChangement(null);
-		// System.out.println("nouveau");
-		// System.out.println(this.grid.toString());
+		this.fireChangement(null); // notify view for changement
+
 	}
 
-	// Pour alpha: methodes des events
 
 	/**
-	 * Boutton prec: retourne true quand il a pu charger la grille prec
+	 * Boutton back: retourne true quand il a pu charger la grille prec
 	 * et false sinon. Donc on ne peut pas aller deux fois en arrière max
 	 * une fois. quand c'est plus d'une fois ca retourne false
-	 * tu peux gérer dans ton affichae
-	 * @return
+	 * @return s'il existe une grille prev ou pas
 	 */
 	public boolean previousGeneration() {
 		if(this.previousGrid != null) {
@@ -183,7 +185,7 @@ public class Game extends AbstractListenableModel {
 	}
 
 	/**
-	 * Boutton accélérer (vitesse max 100 mls)
+	 * Increase the speed of the simulation
 	 */
 	public void increaseSpeed() {
 		if(this.genWaitIntervalInMls > 100)
@@ -191,7 +193,7 @@ public class Game extends AbstractListenableModel {
 	}
 
 	/**
-	 * Boutton décélérer (vitesse min 10 sec)
+	 * Decrease the speed of the simulation
 	 */
 	public void decreaseSpeed() {
 		if(this.genWaitIntervalInMls < 10000)
@@ -199,7 +201,7 @@ public class Game extends AbstractListenableModel {
 	}
 
 	/**
-	 * Boutton debut: je pense ca devrait plutôt être reinitialise
+	 * Reset the grid
 	 */
 	public void resetGrid() {
 		this.grid.reset();
@@ -208,21 +210,21 @@ public class Game extends AbstractListenableModel {
 	}
 
 	/**
-	 * Boutton classic
+	 * Use classic algo
 	 */
 	public void useClassicAlgo() {
 		this.useHashlife = false;
 	}
 
 	/**
-	 * Boutton Hashlife
+	 * Use hashlife algo
 	 */
 	public void useHashlifeAlgo() {
 		this.useHashlife = true;
 	}
 
 	/**
-	 * Boutton init random
+	 * Randomize the grid cells states
 	 */
 	public void useRandom() {
 		this.getGrid().initRandomGrid();
@@ -230,36 +232,32 @@ public class Game extends AbstractListenableModel {
 	}
 
 	/**
-	 * Select a pattern
+	 * Change the grid pattern 
+	 * @param pattern the new pattern to use
 	 */
 	public void usePattern(String pattern) {
 		this.grid.initPattern(pattern);
 		this.fireChangement(null);
 	}
 
-	
-	public int getIteration() {
-		return this.iteration;
-	}
-
-	public void setIteration(int iter) {
-		this.iteration=iter;
-	}
-
-	public int getNbLiveCell() {
-		 this.nBLiveCell=this.grid.getAliveCell();
-		 return this.nBLiveCell;
-	}
-
+	/**
+	 * Change the neighbors type
+	 * @param type the neighbors type
+	 */
 	public void changeNeighborsType(String type) {
 		int[][] nType = NeighborsType.getType(type);
 		generator.setNeighbors(nType);
 	}
 
+	/**
+	 * Change the neighbors type using custom coord
+	 * @param type the neighbors type
+	 * @return wether the operation worked or not
+	 */
 	public boolean changeNeighborsTypeCustom(String type) {
 		boolean res = true;
 		
-		// Vérifier si la chaîne de caractères est au bon format
+		// Check if the string matches the correct format
 		String regex = "\\((-?\\d+),(-?\\d+)\\)(;\\((-?\\d+),(-?\\d+)\\))*";
 		if (!type.matches(regex)) {
 			res = false;
@@ -267,10 +265,14 @@ public class Game extends AbstractListenableModel {
 		
 		generator.setNeighbors(NeighborsType.stringToCoord(type));
 
-		// System.out.println("Neighbors type changed custom");
 		return res;
 	}
 
+	/**
+	 * Change the rule  of the generation
+	 * @param rule the new rule
+	 * @return wether the operation worked or not
+	 */
 	public boolean useCustomRule(String rulestr) {
 		try {
 			Rule cRule = new Rule(rulestr);
@@ -281,6 +283,9 @@ public class Game extends AbstractListenableModel {
 		}
 	}
 
+	/**
+	 * Use gol rule for simulation
+	 */
 	public void useGolRule() {
 		this.generator.setRule(new Rule(constants.Rules.GAMEOFLIFE));
 	}
