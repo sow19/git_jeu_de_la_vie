@@ -79,7 +79,7 @@
 		<test fork="true" name="tests.TestGrid" outfile="TestGrid" />
 		<test fork="true" name="tests.TestPosition" outfile="TestPosition" />
 		<test fork="true" name="tests.TestGenerator" outfile="TestGenerator" />
-		<test fork="true" name="tests.TestGame" outfile="TestGame" />
+		<test fork="true" name="tests.TestNeighborsType" outfile="TestNeighborsType" />
 		<test fork="true" name="tests.TestRuleRangeF" outfile="TestRuleRangeF" />
 	</junit>
     </target>
