@@ -3,7 +3,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import views.MainWindow;
 import model.Grid;
 import app.Generator;
+import constants.NeighborsType;
 import app.Game;
+
 
 public class Main {
 
@@ -13,6 +15,7 @@ public class Main {
 		Generator generator = new Generator();
 		Game game = new Game(grid, generator);
 
+		
 		// Launching GUI
 		try {
 			new MainWindow(game);

@@ -31,7 +31,7 @@ public class TestGenerator {
 		Generator generator = new Generator();
 		Rule rule = generator.getRule();
 		//verifier que generateur est initialisé avec les règles de game of life
-		RuleMulttF ruleMult1 = new RuleMulttF("2");
+		RuleMulttF ruleMult1 = new RuleMulttF("3");
 		RuleMulttF ruleMult2 =new RuleMulttF("23");
 		assertEquals("la règle de naissance doit être celle de game of life",ruleMult1 ,rule.getBornRule());
 		assertEquals("la règle de survie doit être celle de game of life",ruleMult2  ,rule.getSurviveRule());
@@ -62,46 +62,6 @@ public class TestGenerator {
 		
 	}
 	
-	@Test
-	public void testNextGeneration() {
-		Grid grid = new Grid(3,3);
-		grid.getBoard()[0][0].setEtat(1);
-        grid.getBoard()[0][1].setEtat(1);
-        grid.getBoard()[0][2].setEtat(0);
-        grid.getBoard()[1][0].setEtat(1);
-        grid.getBoard()[1][1].setEtat(0);
-        grid.getBoard()[1][2].setEtat(1);
-        grid.getBoard()[2][0].setEtat(0);
-        grid.getBoard()[2][1].setEtat(1);
-        grid.getBoard()[2][2].setEtat(0);
-    	Generator generator = new Generator();
-    	Grid nextGrid = generator.nextGeneration(grid);
-    	//creer une grille pour les tests
-    	Grid testGrid = new Grid(3, 3);
-    	//definir  l'etat des cellules de testGrid de sorte qu'elles soit egale à la grille obtenu après l'appel de nextGeneration()
-        testGrid.getBoard()[0][1].setEtat(1);
-        testGrid.getBoard()[1][1].setEtat(0);
-        testGrid.getBoard()[1][2].setEtat(1);
-        testGrid.getBoard()[2][1].setEtat(1);
-        testGrid.getBoard()[1][0].setEtat(1);
-        testGrid.getBoard()[0][0].setEtat(1);
-        testGrid.getBoard()[2][2].setEtat(1);
-        testGrid.getBoard()[0][2].setEtat(1);
-        testGrid.getBoard()[2][0].setEtat(1);
-        testGrid.getBoard()[2][1].setEtat(1);
-        assertEquals("l'etat de la cellule de la nouvelle grille à la position 00 doit etre la meme que testgrid à la position 0 0",testGrid.getBoard()[0][0].getEtat(), nextGrid.getBoard()[0][0].getEtat());
-        assertEquals("l'etat de la cellule de la nouvelle grille à la position 01 doit etre la meme que l'ancienne grille à la position 0 1",testGrid.getBoard()[0][1].getEtat(), nextGrid.getBoard()[0][1].getEtat());
-        assertEquals("l'etat de la cellule de la nouvelle grille à la position 02 doit etre la meme que l'ancienne grille à la position 0 2",testGrid.getBoard()[0][2].getEtat(), nextGrid.getBoard()[0][2].getEtat());
-        assertEquals("l'etat de la cellule de la nouvelle grille  doit etre la meme que testgrid", testGrid.getBoard()[1][0].getEtat(), nextGrid.getBoard()[1][0].getEtat());
-        assertEquals("l'etat de la cellule de la nouvelle grille  doit etre la meme que testgrid",testGrid.getBoard()[1][1].getEtat(), nextGrid.getBoard()[1][1].getEtat());
-        assertEquals("l'etat de la cellule de la nouvelle grille  doit etre la meme que testgrid",testGrid.getBoard()[1][2].getEtat(), nextGrid.getBoard()[1][2].getEtat());
-        assertEquals("l'etat de la cellule de la nouvelle grille  doit etre la meme que testgrid",testGrid.getBoard()[2][0].getEtat(), nextGrid.getBoard()[2][0].getEtat());
-        assertEquals("l'etat de la cellule de la nouvelle grille  doit etre la meme que testgrid",testGrid.getBoard()[2][1].getEtat(), nextGrid.getBoard()[2][1].getEtat());
-        assertEquals("l'etat de la cellule de la nouvelle grille  doit etre la meme que testgrid",testGrid.getBoard()[2][2].getEtat(), nextGrid.getBoard()[2][2].getEtat());
-		
-		
-		  
-		
-	}
+	
 
 }

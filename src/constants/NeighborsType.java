@@ -22,9 +22,9 @@ public final class NeighborsType {
 	 * @return  the correct type according to the string param and gol type by default
 	 */
 	public static int[][] getType(String type) {
-		if(type.toUpperCase() == "TYPE2") {
+		if(type.toUpperCase().equals("TYPE2")) {
 			return TYPE2;
-		} else if(type.toUpperCase() == "TYPE3") {
+		} else if(type.toUpperCase().equals("TYPE3")) {
 			return TYPE3;
 		} else {
 			return GAMEOFLIFE;
