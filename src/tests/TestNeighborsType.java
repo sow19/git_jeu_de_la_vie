@@ -34,7 +34,7 @@ public class TestNeighborsType {
 	}
 	
 	@Test
-	public void teststringToCoord() {
+	public void testStringToCoord() {
 		String chaine = "(-1,0);(0,-1);(0,1);(1,0)";
 		int[][] coordToTab = NeighborsType.stringToCoord(chaine);
 		int[][] expectedOutput1 = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}};
