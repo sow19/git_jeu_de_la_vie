@@ -40,7 +40,7 @@ public class Aide extends JFrame {
 
         this.getContentPane().add(scrollPane,BorderLayout.CENTER);
 
-        this.setSize(500, 500);
+        this.setSize(700, 700);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
 

@@ -51,18 +51,18 @@ public class Config extends JPanel{
         this.speedZone.setBorder(BorderFactory.createLoweredBevelBorder());
         this.txt=new JTextField("B3/S23");
         this.txt2=new JTextField("(1,1);(0,0);(1,0);(0,1)");
-        this.initRandom=new JButton("init random");
+        this.initRandom=new JButton("Init random");
 
         //zone des labels de configuration
-        JLabel vitesse=new JLabel("vitésse d'execution:");
+        JLabel vitesse=new JLabel("Speed:");
         vitesse.setPreferredSize(new Dimension(130,20));
-        JLabel iterationlabel=new JLabel("iteration:");
+        JLabel iterationlabel=new JLabel("Iteration:");
         iterationlabel.setPreferredSize(new Dimension(90,20));
-        JLabel populationLabel=new JLabel("population:");
+        JLabel populationLabel=new JLabel("Population:");
         populationLabel.setPreferredSize(new Dimension(90,20));
 
         //creation des regles
-        JLabel rulLabel=new JLabel("rules:");
+        JLabel rulLabel=new JLabel("Rules:");
         rulLabel.setPreferredSize(new Dimension(110,20));
         JToolBar rules=new JToolBar();
         String[] rulesExisted= {"game of life","autre"};
@@ -72,7 +72,7 @@ public class Config extends JPanel{
         rules.add(this.listRules);
 
         //creation de type de voisinage
-        JLabel voisinsLabel=new JLabel("Types de voisins:");
+        JLabel voisinsLabel=new JLabel("Neighbors type:");
         JToolBar voisins=new JToolBar();
         voisinsLabel.setPreferredSize(new Dimension(110,20));
         String[] voisinsType= {"GAMEOFLIFE","TYPE2","TYPE3","AUTRE"};

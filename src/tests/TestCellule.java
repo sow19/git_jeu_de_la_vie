@@ -1,6 +1,5 @@
 package tests;
 
-
 /**
  * /**
  * La classe TestCellule contient les tests unitaires pour la classe Cellule.

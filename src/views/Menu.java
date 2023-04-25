@@ -22,7 +22,7 @@ public class Menu extends JToolBar {
 		String[] choix={"Burst.txt","Coeur.txt","Delta.txt","Lettre_L.txt","Sawfish.txt"};
 		this.patterns=new JComboBox<>(choix);
 		//create button aide
-		this.help=new JButton("aide");
+		this.help=new JButton("Help");
 		this.help.setPreferredSize(new Dimension(110,30));
 		//add in JToolBar
 		this.add(menu);

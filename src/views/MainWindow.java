@@ -8,12 +8,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 
 import app.Game;
 import model.rule.Rule;
 import util.ListeningModel;
 import util.Aide;
 import constants.NeighborsType;
+import constants.Rules;
 
 /**
  * C'est la classe qui represente la fenetre principale du jeu
@@ -35,8 +39,9 @@ public class MainWindow extends JFrame implements ListeningModel {
 
 	private Game game;
 
-	public  MainWindow(Game game){
-		super("jeux de la vie");
+	public  MainWindow(Game game)  throws UnsupportedLookAndFeelException{
+		super("Game of Life");
+		UIManager.setLookAndFeel(new NimbusLookAndFeel());
 		JPanel contentPane= (JPanel)this.getContentPane();
 
 		this.menu = new Menu();
@@ -85,15 +90,19 @@ public class MainWindow extends JFrame implements ListeningModel {
 				this.zoneConfiguration.panelRule.remove(this.zoneConfiguration.txt);
 				this.zoneConfiguration.panelRule.setVisible(false);
 				this.zoneConfiguration.panelRule.setVisible(true);
+
+				if(!this.game.useCustomRule(this.zoneConfiguration.txt.getText())) {
+					this.zoneConfiguration.listRules.setSelectedItem("game of life");
+				}
 			});
-			this.game.changeRule(new Rule(this.zoneConfiguration.txt.getText()));
+			
 			this.zoneConfiguration.panelRule.add(this.zoneConfiguration.txt);
 		}
 		else{
 			this.zoneConfiguration.panelRule.remove(this.zoneConfiguration.txt);
 			this.zoneConfiguration.panelRule.setVisible(false);
-			this.zoneConfiguration.rulesZone.setText("B3/S23");
-			this.game.changeRule(new Rule(constants.Rules.GAMEOFLIFE));
+			this.zoneConfiguration.rulesZone.setText(Rules.GAMEOFLIFE);
+			this.game.useGolRule();
 		}
 		this.zoneConfiguration.panelRule.revalidate();
 		this.zoneConfiguration.panelRule.repaint();
